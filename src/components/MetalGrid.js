@@ -174,14 +174,18 @@ const GridInline = {
 		this.updateLayout(this.props);
 		this.mounted = true;
 		this.$nextTick(function () {
-			const erd = elementResizeDetectorMaker({
+			this.erd = elementResizeDetectorMaker({
 				strategy: "scroll"
 			});
-			erd.listenTo(document.getElementById("app"), (element) => {
+			this.erd.listenTo(document.getElementById("metal-grid"), (element) => {
 				this.size = { width: element.offsetWidth, height: element.offsetHeight }
 				this.updateLayout(this.$props)
 			});
 		});
+	},
+
+	destroyed() {
+		this.erd.uninstall(document.getElementById("metal-grid"))
 	},
 
 	methods: {
@@ -381,6 +385,7 @@ const GridInline = {
 					position: 'relative',
 					height: height + 'px',
 				}}
+				id={"metal-grid"}
 				class={className}
 				ref={this.handleRef()}>
 				{validChildren.map((child, i) => (
@@ -418,7 +423,7 @@ const GridInline = {
 /**
  * MetalGrid Component
  */
-export default Vue.extend({
+export default {
 
 	name: "MetalGrid",
 
@@ -481,4 +486,4 @@ export default Vue.extend({
 		)
 	}
 
-})
+}
