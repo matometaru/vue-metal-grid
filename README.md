@@ -13,23 +13,31 @@
 
 ```
 <template>
-	<MetalGrid>
-		<template v-for="item in items">
-			<a :href="item.link" target="_blank" :key="item.id">
-				<p class="date">{{item.date|format}}</p>
-				<p class="tit">{{item.title.rendered}}</p>
-			</a>
-		</template>
-	</MetalGrid>
+  <MetalGrid
+    style="style"
+    component="ul"
+    itemComponent="li"
+    :columnWidth="200"
+    :gutterWidth="15"
+    :gutterHeight="15"
+    :appearDelay="500"
+  >
+    <template v-for="item in items">
+      <a :href="item.link" target="_blank" :key="item.id">
+        <p class="date">{{item.date|format}}</p>
+        <p class="tit">{{item.title.rendered}}</p>
+      </a>
+    </template>
+  </MetalGrid>
 </template>
 
 <script>
 import MetalGrid from 'vue-metal-grid'
 
 export default {
-	components: {
-		MetalGrid: MetalGrid
-	},
+  components: {
+    MetalGrid: MetalGrid
+  },
 ...
 ```
 
