@@ -13,15 +13,7 @@
 
 ```
 <template>
-  <MetalGrid
-    style="style"
-    component="ul"
-    itemComponent="li"
-    :columnWidth="200"
-    :gutterWidth="15"
-    :gutterHeight="15"
-    :appearDelay="500"
-  >
+  <MetalGrid>
     <template v-for="item in items">
       <a :href="item.link" target="_blank" :key="item.id">
         <p class="date">{{item.date|format}}</p>
