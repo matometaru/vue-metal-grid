@@ -4,8 +4,6 @@ import Vue from 'vue'
 Vue.use(VueRouter)
 
 export default new VueRouter({
-    // mode: 'abstract',
-    mode: 'history',
     routes: [
         { path: '/', component: require('./pages/Home').default, props: true },
         { path: '/template', component: require('./pages/Template.vue'), props: true },
