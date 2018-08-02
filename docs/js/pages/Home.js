@@ -34,13 +34,13 @@ export default {
 			});
 		});
 		bus.$on('shuffle', function() {
-			window.alert("shuffle")
+			console.log("shuffle")
 		});
 		bus.$on('prepend', function() {
-			window.alert("prepend")
+			console.log("prepend")
 		});
-		bus.$on('append', function() {
-			window.alert("append")
+		bus.$on('append', () => {
+			this.addItem();
 		});
 	},
 	methods: {
@@ -48,7 +48,7 @@ export default {
 			this.items = this.items.filter(o => o.id !== id)
 		},
 		addItem(id) {
-			this.articles.push({ id: this.items.length+1, title: 'ここに記事のタイトルが入ります。', date: '2018/08/01' })
+			this.items.push({ id: this.items.length+1, title: 'ここに記事のタイトルが入ります。', date: '2018/08/01' })
 		},
 	},
 	render (h) {

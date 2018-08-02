@@ -1,11 +1,11 @@
 <template>
 	<div class="demo-control">
-		<div class="demo-control-button">
+		<!-- <div class="demo-control-button">
 			<button @click="onShuffle">Shuffle</button>
-		</div>
-		<div class="demo-control-button">
+		</div> -->
+		<!-- <div class="demo-control-button">
 			<button @click="onPrepend">Prepend</button>
-		</div>
+		</div> -->
 		<div class="demo-control-button">
 			<button @click="onAppend">Append</button>
 		</div>

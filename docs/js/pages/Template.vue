@@ -67,10 +67,10 @@ export default {
 			});
 		});
 		bus.$on('shuffle', function() {
-			window.alert("shuffle")
+			console.log("shuffle")
 		});
 		bus.$on('prepend', function() {
-			window.alert("prepend")
+			console.log("prepend")
 		});
 		bus.$on('append', () => {
 			this.addItem();
