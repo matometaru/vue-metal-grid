@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { transition, buildStyles } from '../utils/style-helper';
-import { raf } from '../animations/request-animation-frame';
 
 const Props = {
 	index: Number,
@@ -57,13 +56,11 @@ export default Vue.extend({
 	},
 
 	watch: {
-		rect: function(newVal, oldVal) {
-			// raf(() => {
-				this.setStateIfNeeded({
-					...this.state,
-					...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
-				});
-			// });
+		rect: function() {
+			this.setStateIfNeeded({
+				...this.state,
+				...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
+			});
 		}
 	},
 

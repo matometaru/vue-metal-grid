@@ -2,7 +2,6 @@ import Vue from 'vue'
 import ExecutionEnvironment from 'exenv';
 import GridItem from './GridItem'
 import { transition, buildStyles } from '../utils/style-helper';
-import { raf } from '../animations/request-animation-frame';
 import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions/';
 
@@ -156,12 +155,12 @@ const GridInline = {
 	},
 
 	watch: {
-		children: function(newVal, oldVal) {
+		children() {
 			this.updateLayout(this.$props)
 		}
 	},
 
-	created: function () {
+	created() {
 		this.state = this.doLayout(this.$props);
 	},
 
@@ -299,9 +298,9 @@ const GridInline = {
 				const node = item.$el;
 				const imgLoad = imagesLoaded(node);
 
-				imgLoad.once('always', () => raf(() => {
+				imgLoad.once('always', () => {
 					this.updateLayout(this.$props);
-				}));
+				});
 
 				this.imgLoad[key] = imgLoad;
 			}
