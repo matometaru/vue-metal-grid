@@ -16,7 +16,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
     "clean": "rimraf lib",
     "build": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
-    "test:lint": "eslint \"src/**/*.js\"",
+    "test:lint": "eslint \"src/**/*.js\" \"docs/js/**/*.js\"",
     "docs": "webpack-dev-server --config docs/webpack.config.js",
     "docs:build": "webpack -p --config docs/webpack.config.production.js",
     "docs:deploy": "npm run docs:build && gh-pages -d docs"
