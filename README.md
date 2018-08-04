@@ -42,3 +42,26 @@ Released under the MIT Licence
 
 ## Author
 [matometaru](https://github.com/matometaru)
+
+## Development
+Initialization of the project.
+
+```
+$ cd /your/project/dir
+$ git clone https://github.com/matometaru/vue-metal-grid.git
+```
+
+Install some dependencies.
+```
+$ npm install
+```
+
+Start the development and can you see demo page (access to the http://localhost:3000/).
+```
+$ npm start
+```
+
+Run ESLint.
+```
+$ npm test:lint
+```
