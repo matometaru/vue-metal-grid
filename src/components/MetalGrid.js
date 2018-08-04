@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import ExecutionEnvironment from 'exenv';
+import elementResizeDetectorMaker from 'element-resize-detector';
 import GridItem from './GridItem';
-import { transition, buildStyles } from '../utils/style-helper';
 import * as easings from '../animations/easings';
-import * as transitions from '../animations/transitions/';
-
-import VueTransitionGroupPlus from "./vue-transition-group-plus/index";
+import * as transitions from '../animations/transitions';
+import VueTransitionGroupPlus from './vue-transition-group-plus/index';
 Vue.use(VueTransitionGroupPlus);
 
-const elementResizeDetectorMaker = require("element-resize-detector");
+// const elementResizeDetectorMaker = require('element-resize-detector');
 
 const imagesLoaded = ExecutionEnvironment.canUseDOM ? require('imagesloaded') : null;
 
@@ -76,7 +75,7 @@ const Props = {
   },
   units: {
     type: Object,
-    default: function() { return { length: 'px', angle: 'deg'}; },
+    default() { return { length: 'px', angle: 'deg' }; },
   },
   monitorImagesLoaded: {
     type: Boolean,
@@ -105,7 +104,7 @@ const InlineProps = Object.assign(Props, {
   refCallback: Function,
 });
 
-/* eslint-disable consistent-return no-else-return */
+/* eslint-disable consistent-return */
 const getColumnLengthAndWidth = (width, value, gutter) => {
   if (isNumber(value)) {
     const columnWidth = parseFloat(value);
@@ -114,7 +113,8 @@ const getColumnLengthAndWidth = (width, value, gutter) => {
       Math.floor((width - (((width / columnWidth) - 1) * gutter)) / columnWidth),
       columnWidth,
     ];
-  } else if (isPercentageNumber(value)) {
+  }
+  if (isPercentageNumber(value)) {
     const columnPercentage = parseFloat(value) / 100;
     const maxColumn = Math.floor(1 / columnPercentage);
     const columnWidth = (width - (gutter * (maxColumn - 1))) / maxColumn;
@@ -255,7 +255,12 @@ const GridInline = {
 
         columnHeights[column] += Math.round(height) + gutterHeight;
 
-        return { top, left, width: columnWidth, height };
+        return {
+          top,
+          left,
+          width: columnWidth,
+          height,
+        };
       });
 
       const width = (maxColumn * columnWidth) + ((maxColumn - 1) * gutterWidth);
@@ -265,7 +270,12 @@ const GridInline = {
         left: o.left + ((containerWidth - width) / 2),
       }));
 
-      return { rects: finalRects, actualWidth: width, height, columnWidth };
+      return {
+        rects: finalRects,
+        actualWidth: width,
+        height,
+        columnWidth,
+      };
     },
 
     handleItemMounted(item) {
@@ -305,12 +315,11 @@ const GridInline = {
 
   },
 
-  render () {
+  render() {
     const {
       gutterWidth,
       gutterHeight,
       monitorImagesLoaded,
-      enableSSR,
       refCallback,
       className,
       component,
@@ -346,9 +355,9 @@ const GridInline = {
         tag={component}
         style={{
           position: 'relative',
-          height: height + 'px',
+          height: `${height}px`,
         }}
-        id={"metal-grid"}
+        id={'metal-grid'}
         class={className}
         ref={this.handleRef()}>
         {validChildren.map((child, i) => (
@@ -378,7 +387,7 @@ const GridInline = {
           </GridItem>
         ))}
       </transition-group-plus>
-    )
+    );
   },
 
 };
@@ -388,7 +397,7 @@ const GridInline = {
  */
 export default {
 
-  name: "MetalGrid",
+  name: 'MetalGrid',
 
   props: Props,
 
@@ -398,7 +407,7 @@ export default {
       this.gridInline.updateLayout();
     },
 
-    handleRef: function(gridInline) {
+    handleRef(gridInline) {
       this.gridInline = gridInline;
 
       if (typeof this.$props.gridRef === 'function') {
@@ -407,7 +416,7 @@ export default {
     },
   },
 
-  render () {
+  render() {
     const {
       className,
       component,
@@ -419,7 +428,6 @@ export default {
       appearDelay,
       monitorImagesLoaded,
       layoutCb,
-      gridRef,
       duration,
       rtl,
     } = this.$props;
@@ -436,6 +444,7 @@ export default {
         monitorImagesLoaded={monitorImagesLoaded}
         layoutCb={layoutCb}
         duration={duration}
+        enableSSR={enableSSR}
         rtl={rtl}
         refCallback={this.handleRef}
         children={this.$slots.default}

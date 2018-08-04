@@ -192,7 +192,7 @@ export default Vue.extend({
         onLeave={this.onLeave}>
         <Element
           style={style}>
-         {this.$slots.default}
+          {this.$slots.default}
         </Element>
       </transition-plus>
     );
