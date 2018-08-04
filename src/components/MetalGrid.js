@@ -5,14 +5,13 @@ import GridItem from './GridItem';
 import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions';
 import VueTransitionGroupPlus from './vue-transition-group-plus/index';
-Vue.use(VueTransitionGroupPlus);
 
-// const elementResizeDetectorMaker = require('element-resize-detector');
+Vue.use(VueTransitionGroupPlus);
 
 const imagesLoaded = ExecutionEnvironment.canUseDOM ? require('imagesloaded') : null;
 
-const isNumber = (v) => typeof v === 'number' && isFinite(v);
-const isPercentageNumber = (v) => typeof v === 'string' && /^\d+(\.\d+)?%$/.test(v);
+const isNumber = v => typeof v === 'number' && isFinite(v);
+const isPercentageNumber = v => typeof v === 'string' && /^\d+(\.\d+)?%$/.test(v);
 
 const Props = {
   className: String,
@@ -159,15 +158,10 @@ const GridInline = {
     this.state = this.doLayout(this.$props);
   },
 
-  /**
-   * ReactのcomponentDidMount()と同じタイミング
-   * ComponentがDOMツリーに追加された状態で呼ばれるので、
-   * DOMに関わる初期化処理を行いたい時に便利です。
-   */
   mounted() {
     this.updateLayout(this.props);
     this.mounted = true;
-    this.$nextTick(function () {
+    this.$nextTick(() => {
       this.erd = elementResizeDetectorMaker({
         strategy: 'scroll',
       });

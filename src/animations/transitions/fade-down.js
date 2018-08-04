@@ -1,4 +1,3 @@
-// @flow
 export const appear = (rect) => ({
   translateY: rect.top - 10,
   opacity: 0,

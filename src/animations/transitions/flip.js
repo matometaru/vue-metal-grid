@@ -1,4 +1,3 @@
-// @flow
 const common = {
   perspective: 1000,
   transformStyle: 'preserve-3d',

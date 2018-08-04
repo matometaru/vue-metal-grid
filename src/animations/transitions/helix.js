@@ -1,4 +1,3 @@
-// @flow
 const common = {
   transformStyle: 'preserve-3d',
   backfaceVisibility: 'hidden',

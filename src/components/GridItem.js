@@ -120,7 +120,6 @@ export default Vue.extend({
      */
     getStyles() {
       const {
-        itemKey,
         rect,
         duration,
         easing,
@@ -143,18 +142,15 @@ export default Vue.extend({
       return styles;
     },
 
-    /**
-     * styleオブジェクトに設定する
-     */
+    /* eslint-disable no-param-reassign */
     setStyles(el, styles) {
       for (const key in styles) {
-        el.style[key] = styles[key]; 
+        el.style[key] = styles[key];
       }
     },
+    /* eslint-enable no-param-reassign */
 
-    /**
-     * アニメーションフック
-     */
+    /* eslint-disable no-unused-vars */
     onBeforeEnter(el) {
       this.setEnterStyles();
     },
@@ -169,18 +165,15 @@ export default Vue.extend({
       const styles = this.getStyles();
       // elにスタイル設定。
       this.setStyles(el, styles);
-      // setTimeoutでduration後にdoneするか、transitionendイベントで完了。 
       setTimeout(done, this.$props.duration);
     },
+    /* eslint-enable no-unused-vars */
 
   },
 
-  render () {
+  render() {
     const {
-      index,
       component: Element,
-      containerSize,
-      itemKey,
     } = this.$props;
 
     const style = this.getStyles();
@@ -196,6 +189,5 @@ export default Vue.extend({
         </Element>
       </transition-plus>
     );
-  }
-
-})
+  },
+});

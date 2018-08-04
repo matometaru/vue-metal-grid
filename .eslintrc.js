@@ -6,7 +6,7 @@ module.exports = {
 	'env': {
 		'es6': true,
 		'browser': true,
-		'node': true,
+		'node': true
 	},	
 	'extends': [
 		'plugin:vue/essential',
@@ -14,5 +14,10 @@ module.exports = {
 	],
 	'rules': {
 		'eol-last': 'off',
+		'no-restricted-globals': ['off', 'window'],
+		'object-curly-newline': 'off',
+		'arrow-parens': 'off',
+		'guard-for-in': 'off',
+		'no-restricted-syntax': 'off',
 	}
 };
