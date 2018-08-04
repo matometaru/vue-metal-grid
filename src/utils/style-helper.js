@@ -11,9 +11,7 @@ export const Units = {
 const isTransformProp = v => properties.indexOf(v) > -1;
 
 export const transition = (props, duration, easing) => (
-  props.map(prop =>
-    `${prop} ${duration}ms ${easing}`
-  ).join(',')
+  props.map(prop => `${prop} ${duration}ms ${easing}`).join(',')
 );
 
 
@@ -21,7 +19,7 @@ export const buildStyles = (
   styles,
   units,
   vendorPrefix,
-  userAgent
+  userAgent,
 ) => {
   const builder = createCSSTransformBuilder(units);
   const finalStyles = {};

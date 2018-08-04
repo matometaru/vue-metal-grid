@@ -16,6 +16,7 @@
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
     "clean": "rimraf lib",
     "build": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
+    "test:lint": "eslint \"src/**/*.js\"",
     "docs": "webpack-dev-server --config docs/webpack.config.js",
     "docs:build": "webpack -p --config docs/webpack.config.production.js",
     "docs:deploy": "npm run docs:build && gh-pages -d docs"
@@ -37,6 +38,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.6",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.2",
     "babel-plugin-syntax-jsx": "^6.18.0",
@@ -47,6 +49,12 @@
     "babel-preset-vue": "^2.0.2",
     "cross-env": "^3.0.0",
     "css-loader": "^1.0.0",
+    "eslint": "^5.3.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-vue": "^5.0.0-beta.1",
     "node-sass": "^4.9.2",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.0.3",
