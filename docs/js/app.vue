@@ -11,8 +11,8 @@
 <script>
 export default {
 	components: {
-		navbar: require('./components/Navbar.vue'),
-		democontrol: require('./components/DemoControl.vue')
+		navbar: require('./components/Navbar.vue').default,
+		democontrol: require('./components/DemoControl.vue').default
 	},
 }
 </script>
