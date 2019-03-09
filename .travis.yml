@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "10"
+install:
+  - npm install
+os:
+  - linux
+script:
+  - yarn test:lint
+dist: trusty
+sudo: false
+cache: yarn
