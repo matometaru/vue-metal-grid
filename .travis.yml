@@ -6,7 +6,7 @@ install:
 os:
   - linux
 script:
-  - yarn test:lint
+  - yarn test
 dist: trusty
 sudo: false
 cache: yarn

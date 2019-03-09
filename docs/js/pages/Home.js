@@ -33,14 +33,6 @@ export default {
       });
     });
 
-    bus.$on('shuffle', () => {
-      console.log('shuffle');
-    });
-
-    bus.$on('prepend', () => {
-      console.log('prepend');
-    });
-
     bus.$on('append', () => {
       this.addItem();
     });

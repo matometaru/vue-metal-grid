@@ -1,10 +1,10 @@
 {
   "presets": [
-    "es2015",
-    "stage-1"
+    "@babel/preset-env",
+    "@vue/babel-preset-jsx"
   ],
   "plugins": [
-  	"transform-vue-jsx",
-  	"transform-runtime"
+  	"@babel/plugin-transform-runtime",
+  	"@babel/plugin-proposal-export-namespace-from"
   ]
 }
