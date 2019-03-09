@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import sinon from 'sinon';
 import GridItem from '../GridItem';
 import * as transitions from '../../animations/transitions';
 
@@ -51,5 +52,19 @@ describe('setAppearedStyles', () => {
     });
     wrapper.vm.setAppearedStyles();
     expect(wrapper.vm.state.opacity).toBe(1);
+  });
+});
+
+describe('unmountCb', () => {
+  test('Should be call unmountCb', () => {
+    const unmountCbStub = sinon.stub();
+    const props = { ...mockPorps, unmountCb: unmountCbStub };
+    const wrapper = mount(GridItem, {
+      stubs: ['transition-plus'],
+      propsData: props,
+    });
+
+    wrapper.destroy();
+    expect(unmountCbStub.called).toBe(true);
   });
 });
