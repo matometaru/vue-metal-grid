@@ -55,6 +55,17 @@ describe('setAppearedStyles', () => {
   });
 });
 
+describe('getStyles', () => {
+  test('should be opacity 1', () => {
+    const wrapper = mount(GridItem, {
+      stubs: ['transition-plus'],
+      propsData: mockPorps,
+    });
+    const styles = wrapper.vm.getStyles();
+    expect(styles).toBe(1);
+  });
+});
+
 describe('unmountCb', () => {
   test('Should be call unmountCb', () => {
     const unmountCbStub = sinon.stub();
