@@ -11,8 +11,11 @@ module.exports = {
 	},	
 	'extends': [
 		'plugin:vue/essential',
-		'airbnb-base'
+		'airbnb-base',
+		'plugin:vue/essential',
+		'plugin:prettier/recommended'
 	],
+	'plugins': ['vue'],
 	'rules': {
 		'eol-last': 'off',
 		'no-restricted-globals': ['off', 'window'],
@@ -20,5 +23,12 @@ module.exports = {
 		'arrow-parens': 'off',
 		'guard-for-in': 'off',
 		'no-restricted-syntax': 'off',
+		'prettier/prettier': [
+			'error',
+			{
+				singleQuote: true,
+				trailingComma: 'es5',
+			},
+		],
 	}
 };
