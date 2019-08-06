@@ -1,16 +1,20 @@
 {
-    "compilerOptions": {
-        // これは Vue のブラウザサポートに合わせます
-        "target": "es5",
-        "module": "es2015",
-        // これは `this` におけるデータプロパティに対して厳密な推論を可能にします
-        "strict": true,
-        // this を型推論するため有効にする
-        "noImplicitThis": true,
-        "moduleResolution": "node",
-        // import Vue from 'vue' を有効にする
-        "allowSyntheticDefaultImports": true,
-        // import/export を使うため有効にする
-        "esModuleInterop": true,
-    }
-  }
+  "compilerOptions": {
+    // これは Vue のブラウザサポートに合わせます
+    "target": "es5",
+    "module": "es2015",
+    // これは `this` におけるデータプロパティに対して厳密な推論を可能にします
+    "strict": true,
+    // this を型推論するため有効にする
+    "noImplicitThis": true,
+    "moduleResolution": "node",
+    // import Vue from 'vue' を有効にする
+    "allowSyntheticDefaultImports": true,
+    // import/export を使うため有効にする
+    "esModuleInterop": true,
+    "jsx": "preserve",
+    "jsxFactory": "h"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

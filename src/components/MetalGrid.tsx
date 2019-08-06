@@ -1,17 +1,25 @@
 import Vue from 'vue';
+// @ts-ignore
 import ExecutionEnvironment from 'exenv';
+// @ts-ignore
 import elementResizeDetectorMaker from 'element-resize-detector';
 import GridItem from './GridItem';
+// @ts-ignore
 import * as easings from '../animations/easings';
+// @ts-ignore
 import * as transitions from '../animations/transitions';
+// @ts-ignore
 import VueTransitionGroupPlus from './vue-transition-group-plus/index';
 
 Vue.use(VueTransitionGroupPlus);
 
-const imagesLoaded = ExecutionEnvironment.canUseDOM ? require('imagesloaded') : null;
+const imagesLoaded = ExecutionEnvironment.canUseDOM
+  ? require('imagesloaded')
+  : null;
 
-const isNumber = v => typeof v === 'number' && isFinite(v);
-const isPercentageNumber = v => typeof v === 'string' && /^\d+(\.\d+)?%$/.test(v);
+const isNumber = (v: number) => typeof v === 'number' && isFinite(v);
+const isPercentageNumber = (v: string) =>
+  typeof v === 'string' && /^\d+(\.\d+)?%$/.test(v);
 
 const Props = {
   className: String,
@@ -74,7 +82,9 @@ const Props = {
   },
   units: {
     type: Object,
-    default() { return { length: 'px', angle: 'deg' }; },
+    default() {
+      return { length: 'px', angle: 'deg' };
+    },
   },
   monitorImagesLoaded: {
     type: Boolean,
@@ -98,53 +108,55 @@ const Props = {
   },
 };
 
-const InlineProps = Object.assign(Props, {
+const InlineProps: Record<string, any> = Object.assign(Props, {
   children: Array,
   refCallback: Function,
 });
 
 /* eslint-disable consistent-return */
-const getColumnLengthAndWidth = (width, value, gutter) => {
+const getColumnLengthAndWidth = (
+  width: any,
+  value: any,
+  gutter: any
+): number[] => {
   if (isNumber(value)) {
     const columnWidth = parseFloat(value);
 
     return [
-      Math.floor((width - (((width / columnWidth) - 1) * gutter)) / columnWidth),
+      Math.floor((width - (width / columnWidth - 1) * gutter) / columnWidth),
       columnWidth,
     ];
   }
   if (isPercentageNumber(value)) {
     const columnPercentage = parseFloat(value) / 100;
     const maxColumn = Math.floor(1 / columnPercentage);
-    const columnWidth = (width - (gutter * (maxColumn - 1))) / maxColumn;
+    const columnWidth = (width - gutter * (maxColumn - 1)) / maxColumn;
 
-    return [
-      maxColumn,
-      columnWidth,
-    ];
+    return [maxColumn, columnWidth];
   }
+  return [0, 0];
 };
 /* eslint-enable consistent-return */
 
 /**
  * GridInline Component
  */
-const GridInline = {
-
+const GridInline = Vue.extend({
   name: 'GridInline',
 
   props: InlineProps,
 
   data() {
     return {
-      items: {},
-      imgLoad: {},
+      items: {} as any,
+      imgLoad: {} as any,
       size: {
         width: 1000,
         height: 1000,
       },
       mounted: false,
-      state: {},
+      state: {} as any,
+      erd: {} as any, // erdってなんや・・
     };
   },
 
@@ -165,10 +177,16 @@ const GridInline = {
       this.erd = elementResizeDetectorMaker({
         strategy: 'scroll',
       });
-      this.erd.listenTo(document.getElementById('metal-grid'), (element) => {
-        this.size = { width: element.offsetWidth, height: element.offsetHeight };
-        this.updateLayout(this.$props);
-      });
+      this.erd.listenTo(
+        document.getElementById('metal-grid'),
+        (element: any) => {
+          this.size = {
+            width: element.offsetWidth,
+            height: element.offsetHeight,
+          };
+          this.updateLayout(this.$props);
+        }
+      );
     });
   },
 
@@ -183,11 +201,16 @@ const GridInline = {
      * @param  {Object} this.childrenのitem
      * @return {number} itemの高さ
      */
-    getItemHeight(item) {
+    getItemHeight(item: any) {
       // 初期化時点では$refsにまだアクセスできないので、hasOwnPropertyで確認する。
       if (item.key && Object.hasOwnProperty.call(this.items, item.key)) {
-        const el = this.$refs[item.key].$el;
-        const candidate = [el.scrollHeight, el.clientHeight, el.offsetHeight, 0].filter(isNumber);
+        const el = (this.$refs[item.key] as any).$el;
+        const candidate = [
+          el.scrollHeight,
+          el.clientHeight,
+          el.offsetHeight,
+          0,
+        ].filter(isNumber);
         return Math.max(...candidate);
       }
 
@@ -200,7 +223,7 @@ const GridInline = {
      * @param  {Object} PropsInline
      * @return {Object} state
      */
-    doLayout(props) {
+    doLayout(props: any) {
       const results = this.doLayoutForClient(props);
 
       if (this.mounted && typeof this.$props.layoutCb === 'function') {
@@ -213,8 +236,8 @@ const GridInline = {
     /**
      * this.stateを更新し、レンダリングを行う
      */
-    updateLayout() {
-      this.state = this.doLayout(this.$props);
+    updateLayout(props: any) {
+      this.state = this.doLayout(props);
     },
 
     /**
@@ -223,12 +246,8 @@ const GridInline = {
      * @param  {Object} PropsInline
      * @return {Object} { rects, actualWidth, height, columnWidth }
      */
-    doLayoutForClient(props) {
-      const {
-        columnWidth: rawColumnWidth,
-        gutterWidth,
-        gutterHeight,
-      } = props;
+    doLayoutForClient(props: any) {
+      const { columnWidth: rawColumnWidth, gutterWidth, gutterHeight } = props;
 
       const containerWidth = this.size.width;
 
@@ -236,15 +255,15 @@ const GridInline = {
       const [maxColumn, columnWidth] = getColumnLengthAndWidth(
         containerWidth,
         rawColumnWidth,
-        gutterWidth,
+        gutterWidth
       );
       // columnHeightsはgridArrayに該当するやつ。
       const columnHeights = Array(maxColumn).fill(0);
 
-      const rects = childArray.map((child) => {
+      const rects = childArray.map(child => {
         const column = columnHeights.indexOf(Math.min(...columnHeights));
         const height = this.getItemHeight(child);
-        const left = (column * columnWidth) + (column * gutterWidth);
+        const left = column * columnWidth + column * gutterWidth;
         const top = columnHeights[column];
 
         columnHeights[column] += Math.round(height) + gutterHeight;
@@ -257,11 +276,11 @@ const GridInline = {
         };
       });
 
-      const width = (maxColumn * columnWidth) + ((maxColumn - 1) * gutterWidth);
+      const width = maxColumn * columnWidth + (maxColumn - 1) * gutterWidth;
       const height = Math.max(...columnHeights) - gutterHeight;
       const finalRects = rects.map(o => ({
         ...o,
-        left: o.left + ((containerWidth - width) / 2),
+        left: o.left + (containerWidth - width) / 2,
       }));
 
       return {
@@ -272,11 +291,14 @@ const GridInline = {
       };
     },
 
-    handleItemMounted(item) {
+    handleItemMounted(item: any) {
       const { itemKey: key } = item.$props;
       this.items[key] = item;
 
-      if (this.$props.monitorImagesLoaded && typeof imagesLoaded === 'function') {
+      if (
+        this.$props.monitorImagesLoaded &&
+        typeof imagesLoaded === 'function'
+      ) {
         const node = item.$el;
         const imgLoad = imagesLoaded(node);
 
@@ -290,7 +312,7 @@ const GridInline = {
       this.updateLayout(this.$props);
     },
 
-    handleItemUnmount(item) {
+    handleItemUnmount(item: any) {
       const { itemKey: key } = item.$props;
 
       if (Object.hasOwnProperty.call(this.items, key)) {
@@ -306,10 +328,9 @@ const GridInline = {
     handleRef() {
       this.$props.refCallback(this);
     },
-
   },
 
-  render() {
+  render(h) {
     const {
       gutterWidth,
       gutterHeight,
@@ -344,6 +365,7 @@ const GridInline = {
     const validChildren = Array.isArray(this.children) ? this.children : [];
 
     return (
+      // @ts-ignore
       <transition-group-plus
         transition-mode="out-in"
         tag={component}
@@ -353,8 +375,10 @@ const GridInline = {
         }}
         id={'metal-grid'}
         class={className}
-        ref={this.handleRef()}>
-        {validChildren.map((child, i) => (
+        ref={this.handleRef()}
+      >
+        {validChildren.map((child: any, i: any) => (
+          // @ts-ignore
           <GridItem
             {...rest}
             index={i}
@@ -376,32 +400,40 @@ const GridInline = {
             easing={easing}
             units={units}
             vendorPrefix={vendorPrefix}
-            ref={child.key}>
+            ref={child.key}
+          >
             {child}
           </GridItem>
         ))}
+        {/* 
+      // @ts-ignore */}
       </transition-group-plus>
     );
   },
-
-};
+});
 
 /**
  * MetalGrid Component
  */
-export default {
-
+export default Vue.extend({
   name: 'MetalGrid',
 
   props: Props,
 
-  methods: {
+  data() {
+    return {
+      gridInline: {
+        updateLayout: () => {},
+      } as any,
+    };
+  },
 
+  methods: {
     updateLayout() {
       this.gridInline.updateLayout();
     },
 
-    handleRef(gridInline) {
+    handleRef(gridInline: any) {
       this.gridInline = gridInline;
 
       if (typeof this.$props.gridRef === 'function') {
@@ -410,7 +442,7 @@ export default {
     },
   },
 
-  render() {
+  render(h) {
     const {
       className,
       component,
@@ -427,6 +459,7 @@ export default {
     } = this.$props;
 
     return (
+      // @ts-ignore
       <GridInline
         className={className}
         component={component}
@@ -445,4 +478,4 @@ export default {
       />
     );
   },
-};
+});

@@ -15,24 +15,13 @@
     "start": "npm run docs",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --open --inline --hot",
     "clean": "rimraf lib",
-    "build": "babel src/ -d lib/ --ignore \"**/__tests__/*\"",
+    "build": "tsc",
     "test": "npm run test:lint && npm run test:unit",
     "test:unit": "jest",
     "test:lint": "eslint \"src/**/*.js\" \"docs/js/**/*.js\"",
     "docs": "webpack-dev-server --config docs/webpack.config.js",
     "docs:build": "webpack -p --config docs/webpack.config.production.js",
     "docs:deploy": "npm run docs:build && gh-pages -d docs"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "repository": {
     "type": "git",
@@ -68,22 +57,15 @@
     "css-loader": "^2.1.1",
     "eslint": "^5.15.1",
     "eslint-config-airbnb-base": "^13.0.0",
-    "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-vue": "^5.0.0-beta.1",
-    "husky": "^3.0.2",
     "jest": "^24.0.0",
     "jest-serializer-vue": "^2.0.2",
-    "lint-staged": "^9.2.1",
     "node-sass": "^4.9.2",
-    "prettier": "^1.18.2",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
     "sinon": "^7.2.7",
-    "ts-loader": "^6.0.4",
-    "typescript": "^3.5.3",
     "vue-hot-reload-api": "^2.3.0",
     "vue-loader": "^14.2.2",
     "vue-router": "^3.0.1",

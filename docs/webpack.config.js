@@ -17,21 +17,19 @@ module.exports = {
   devtool: 'inline-source-map',
 
   resolve: {
-      extensions: ['.js', '.vue'],
-      alias: {
-        vue$: 'vue/dist/vue.esm.js',
-        // vue: 'vue/dist/vue.js',
-        // '@': path.resolve(__dirname, '/js'),
-      }
+    extensions: ['.js', '.vue', '.jsx'],
+    alias: {
+      vue$: 'vue/dist/vue.esm.js',
+      // vue: 'vue/dist/vue.js',
+      // '@': path.resolve(__dirname, '/js'),
+    },
   },
 
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        use: [
-          'babel-loader',
-        ],
+        use: ['babel-loader'],
         exclude: /node_modules/,
       },
       {
@@ -40,16 +38,14 @@ module.exports = {
         options: {
           loaders: {
             scss: 'vue-style-loader!css-loader!sass-loader',
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax'
-          }
-        }
+            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+          },
+        },
       },
     ],
   },
 
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-  ],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
 
   devServer: {
     contentBase: __dirname,

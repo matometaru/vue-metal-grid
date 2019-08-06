@@ -1,4 +1,5 @@
 import Vue from 'vue';
+// @ts-ignore
 import { transition, buildStyles } from '../utils/style-helper';
 
 const Props = {
@@ -26,20 +27,19 @@ const Props = {
   rtl: Boolean,
 };
 
-const getTransitionStyles = (type, props) => {
+const getTransitionStyles = (type: any, props: any) => {
   const { rect, containerSize, index } = props;
 
   return props[type](rect, containerSize, index);
 };
 
-const getPositionStyles = (rect, zIndex, rtl) => ({
+const getPositionStyles = (rect: any, zIndex: any, rtl: any) => ({
   translateX: `${rtl ? -Math.round(rect.left) : Math.round(rect.left)}px`,
   translateY: `${Math.round(rect.top)}px`,
   zIndex,
 });
 
 export default Vue.extend({
-
   name: 'GridItem',
 
   props: Props,
@@ -67,7 +67,7 @@ export default Vue.extend({
   mounted() {
     setTimeout(
       this.setAppearedStyles,
-      this.$props.appearDelay * this.$props.index,
+      this.$props.appearDelay * this.$props.index
     );
     this.$props.mountedCb(this);
   },
@@ -77,7 +77,7 @@ export default Vue.extend({
   },
 
   methods: {
-    setStateIfNeeded(state) {
+    setStateIfNeeded(state: any) {
       this.state = state;
     },
 
@@ -129,21 +129,26 @@ export default Vue.extend({
         rtl,
       } = this.$props;
 
-      const styles = buildStyles({
-        ...this.state,
-        display: 'block',
-        position: 'absolute',
-        top: 0,
-        ...(rtl ? { right: 0 } : { left: 0 }),
-        width: `${rect.width}px`,
-        transition: transition(['opacity', 'transform'], duration, easing),
-      }, units, vendorPrefix, userAgent);
+      const styles = buildStyles(
+        {
+          ...this.state,
+          display: 'block',
+          position: 'absolute',
+          top: 0,
+          ...(rtl ? { right: 0 } : { left: 0 }),
+          width: `${rect.width}px`,
+          transition: transition(['opacity', 'transform'], duration, easing),
+        },
+        units,
+        vendorPrefix,
+        userAgent
+      );
 
       return styles;
     },
 
     /* eslint-disable no-param-reassign */
-    setStyles(el, styles) {
+    setStyles(el: any, styles: any) {
       for (const key in styles) {
         el.style[key] = styles[key];
       }
@@ -151,15 +156,15 @@ export default Vue.extend({
     /* eslint-enable no-param-reassign */
 
     /* eslint-disable no-unused-vars */
-    onBeforeEnter(el) {
+    onBeforeEnter(el: any) {
       this.setEnterStyles();
     },
 
-    onEnter(el, done) {
+    onEnter(el: any, done: any) {
       this.setEnteredStyles();
     },
 
-    onLeave(el, done) {
+    onLeave(el: any, done: any) {
       this.setLeaveStyles();
       // stylesのオブジェクトを取得
       const styles = this.getStyles();
@@ -168,25 +173,23 @@ export default Vue.extend({
       setTimeout(done, this.$props.duration);
     },
     /* eslint-enable no-unused-vars */
-
   },
 
-  render() {
-    const {
-      component: Element,
-    } = this.$props;
+  render(h) {
+    const { component: Element } = this.$props;
 
     const style = this.getStyles();
 
     return (
+      // @ts-ignore
       <transition-plus
         beforeEnter={this.onBeforeEnter}
         onEnter={this.onEnter}
-        onLeave={this.onLeave}>
-        <Element
-          style={style}>
-          {this.$slots.default}
-        </Element>
+        onLeave={this.onLeave}
+      >
+        <Element style={style}>{this.$slots.default}</Element>
+        {/* 
+        // @ts-ignore */}
       </transition-plus>
     );
   },
