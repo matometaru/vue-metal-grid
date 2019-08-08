@@ -1,116 +1,115 @@
-import Vue from 'vue';
+import Vue from "vue";
 // @ts-ignore
-import ExecutionEnvironment from 'exenv';
+import ExecutionEnvironment from "exenv";
+import elementResizeDetectorMaker from "element-resize-detector";
+import GridItem from "./GridItem";
 // @ts-ignore
-import elementResizeDetectorMaker from 'element-resize-detector';
-import GridItem from './GridItem';
+import * as easings from "../animations/easings";
 // @ts-ignore
-import * as easings from '../animations/easings';
+import * as transitions from "../animations/transitions";
 // @ts-ignore
-import * as transitions from '../animations/transitions';
-// @ts-ignore
-import VueTransitionGroupPlus from './vue-transition-group-plus/index';
+import VueTransitionGroupPlus from "./vue-transition-group-plus/index";
 
 Vue.use(VueTransitionGroupPlus);
 
 const imagesLoaded = ExecutionEnvironment.canUseDOM
-  ? require('imagesloaded')
+  ? require("imagesloaded")
   : null;
 
-const isNumber = (v: number) => typeof v === 'number' && isFinite(v);
+const isNumber = (v: number) => typeof v === "number" && isFinite(v);
 const isPercentageNumber = (v: string) =>
-  typeof v === 'string' && /^\d+(\.\d+)?%$/.test(v);
+  typeof v === "string" && /^\d+(\.\d+)?%$/.test(v);
 
 const Props = {
   className: String,
   css: {
     type: Object,
-    default: () => {},
+    default: () => {}
   },
   gridRef: Function,
   component: {
     type: String,
-    default: 'div',
+    default: "div"
   },
   itemComponent: {
     type: String,
-    default: 'span',
+    default: "span"
   },
   columnWidth: {
     type: [Number, String],
-    default: 150,
+    default: 150
   },
   gutterWidth: {
     type: Number,
-    default: 5,
+    default: 5
   },
   gutterHeight: {
     type: Number,
-    default: 5,
+    default: 5
   },
   duration: {
     type: Number,
-    default: 480,
+    default: 480
   },
   easing: {
     type: String,
-    default: easings.quartOut,
+    default: easings.quartOut
   },
   appearDelay: {
     type: Number,
-    default: 30,
+    default: 30
   },
   appear: {
     type: Function,
-    default: transitions.fadeUp.appear,
+    default: transitions.fadeUp.appear
   },
   appeared: {
     type: Function,
-    default: transitions.fadeUp.appeared,
+    default: transitions.fadeUp.appeared
   },
   enter: {
     type: Function,
-    default: transitions.fadeUp.enter,
+    default: transitions.fadeUp.enter
   },
   entered: {
     type: Function,
-    default: transitions.fadeUp.entered,
+    default: transitions.fadeUp.entered
   },
   leaved: {
     type: Function,
-    default: transitions.fadeUp.leaved,
+    default: transitions.fadeUp.leaved
   },
   units: {
     type: Object,
     default() {
-      return { length: 'px', angle: 'deg' };
-    },
+      return { length: "px", angle: "deg" };
+    }
   },
   monitorImagesLoaded: {
     type: Boolean,
-    default: false,
+    default: false
   },
   vendorPrefix: {
     type: Boolean,
-    default: true,
+    default: true
   },
   enableSSR: {
     type: Boolean,
-    default: false,
+    default: false
   },
   layoutCb: {
     type: Function,
-    default: null,
+    default: null
   },
   rtl: {
     type: Boolean,
-    default: false,
-  },
+    default: false
+  }
 };
 
 const InlineProps: Record<string, any> = Object.assign(Props, {
   children: Array,
-  refCallback: Function,
+  refCallback: Function
 });
 
 /* eslint-disable consistent-return */
@@ -124,7 +123,7 @@ const getColumnLengthAndWidth = (
 
     return [
       Math.floor((width - (width / columnWidth - 1) * gutter) / columnWidth),
-      columnWidth,
+      columnWidth
     ];
   }
   if (isPercentageNumber(value)) {
@@ -142,7 +141,7 @@ const getColumnLengthAndWidth = (
  * GridInline Component
  */
 const GridInline = Vue.extend({
-  name: 'GridInline',
+  name: "GridInline",
 
   props: InlineProps,
 
@@ -152,18 +151,18 @@ const GridInline = Vue.extend({
       imgLoad: {} as any,
       size: {
         width: 1000,
-        height: 1000,
+        height: 1000
       },
       mounted: false,
       state: {} as any,
-      erd: {} as any, // erdってなんや・・
+      erd: {} as any // erdってなんや・・ // elementResizeDetectorMaker
     };
   },
 
   watch: {
     children() {
       this.updateLayout(this.$props);
-    },
+    }
   },
 
   created() {
@@ -175,14 +174,14 @@ const GridInline = Vue.extend({
     this.mounted = true;
     this.$nextTick(() => {
       this.erd = elementResizeDetectorMaker({
-        strategy: 'scroll',
+        strategy: "scroll"
       });
       this.erd.listenTo(
-        document.getElementById('metal-grid'),
+        document.getElementById("metal-grid"),
         (element: any) => {
           this.size = {
             width: element.offsetWidth,
-            height: element.offsetHeight,
+            height: element.offsetHeight
           };
           this.updateLayout(this.$props);
         }
@@ -191,7 +190,7 @@ const GridInline = Vue.extend({
   },
 
   destroyed() {
-    this.erd.uninstall(document.getElementById('metal-grid'));
+    this.erd.uninstall(document.getElementById("metal-grid"));
   },
 
   methods: {
@@ -209,7 +208,7 @@ const GridInline = Vue.extend({
           el.scrollHeight,
           el.clientHeight,
           el.offsetHeight,
-          0,
+          0
         ].filter(isNumber);
         return Math.max(...candidate);
       }
@@ -226,7 +225,7 @@ const GridInline = Vue.extend({
     doLayout(props: any) {
       const results = this.doLayoutForClient(props);
 
-      if (this.mounted && typeof this.$props.layoutCb === 'function') {
+      if (this.mounted && typeof this.$props.layoutCb === "function") {
         this.$props.layoutCb();
       }
 
@@ -272,7 +271,7 @@ const GridInline = Vue.extend({
           top,
           left,
           width: columnWidth,
-          height,
+          height
         };
       });
 
@@ -280,14 +279,14 @@ const GridInline = Vue.extend({
       const height = Math.max(...columnHeights) - gutterHeight;
       const finalRects = rects.map(o => ({
         ...o,
-        left: o.left + (containerWidth - width) / 2,
+        left: o.left + (containerWidth - width) / 2
       }));
 
       return {
         rects: finalRects,
         actualWidth: width,
         height,
-        columnWidth,
+        columnWidth
       };
     },
 
@@ -297,12 +296,12 @@ const GridInline = Vue.extend({
 
       if (
         this.$props.monitorImagesLoaded &&
-        typeof imagesLoaded === 'function'
+        typeof imagesLoaded === "function"
       ) {
         const node = item.$el;
         const imgLoad = imagesLoaded(node);
 
-        imgLoad.once('always', () => {
+        imgLoad.once("always", () => {
           this.updateLayout(this.$props);
         });
 
@@ -320,14 +319,14 @@ const GridInline = Vue.extend({
       }
 
       if (Object.hasOwnProperty.call(this.imgLoad, key)) {
-        this.imgLoad[key].off('always');
+        this.imgLoad[key].off("always");
         delete this.imgLoad[key];
       }
     },
 
     handleRef() {
       this.$props.refCallback(this);
-    },
+    }
   },
 
   render(h) {
@@ -359,7 +358,7 @@ const GridInline = Vue.extend({
     const containerSize = {
       actualWidth,
       width: this.size.width == null ? 0 : this.size.width,
-      height,
+      height
     };
 
     const validChildren = Array.isArray(this.children) ? this.children : [];
@@ -370,10 +369,10 @@ const GridInline = Vue.extend({
         transition-mode="out-in"
         tag={component}
         style={{
-          position: 'relative',
-          height: `${height}px`,
+          position: "relative",
+          height: `${height}px`
         }}
-        id={'metal-grid'}
+        id={"metal-grid"}
         class={className}
         ref={this.handleRef()}
       >
@@ -409,22 +408,22 @@ const GridInline = Vue.extend({
       // @ts-ignore */}
       </transition-group-plus>
     );
-  },
+  }
 });
 
 /**
  * MetalGrid Component
  */
 export default Vue.extend({
-  name: 'MetalGrid',
+  name: "MetalGrid",
 
   props: Props,
 
   data() {
     return {
       gridInline: {
-        updateLayout: () => {},
-      } as any,
+        updateLayout: () => {}
+      } as any
     };
   },
 
@@ -436,10 +435,10 @@ export default Vue.extend({
     handleRef(gridInline: any) {
       this.gridInline = gridInline;
 
-      if (typeof this.$props.gridRef === 'function') {
+      if (typeof this.$props.gridRef === "function") {
         this.$props.gridRef(this);
       }
-    },
+    }
   },
 
   render(h) {
@@ -455,7 +454,7 @@ export default Vue.extend({
       monitorImagesLoaded,
       layoutCb,
       duration,
-      rtl,
+      rtl
     } = this.$props;
 
     return (
@@ -477,5 +476,5 @@ export default Vue.extend({
         children={this.$slots.default}
       />
     );
-  },
+  }
 });
