@@ -12,6 +12,8 @@ import VueTransitionGroupPlus from "./vue-transition-group-plus/index";
 
 Vue.use(VueTransitionGroupPlus);
 
+const ELEMENT_ID = "metal-grid";
+
 const imagesLoaded = ExecutionEnvironment.canUseDOM
   ? require("imagesloaded")
   : null;
@@ -155,7 +157,7 @@ const GridInline = Vue.extend({
       },
       mounted: false,
       state: {} as any,
-      erd: {} as any // erdってなんや・・ // elementResizeDetectorMaker
+      erd: {} as elementResizeDetectorMaker.Erd
     };
   },
 
@@ -172,25 +174,29 @@ const GridInline = Vue.extend({
   mounted() {
     this.updateLayout(this.props);
     this.mounted = true;
+    const wrapperElement = document.getElementById(ELEMENT_ID);
+    if (wrapperElement === null) {
+      throw new Error(`id ${ELEMENT_ID} was not found`);
+    }
     this.$nextTick(() => {
       this.erd = elementResizeDetectorMaker({
         strategy: "scroll"
       });
-      this.erd.listenTo(
-        document.getElementById("metal-grid"),
-        (element: any) => {
-          this.size = {
-            width: element.offsetWidth,
-            height: element.offsetHeight
-          };
-          this.updateLayout(this.$props);
-        }
-      );
+      this.erd.listenTo(wrapperElement, (element: HTMLElement) => {
+        this.size = {
+          width: element.offsetWidth,
+          height: element.offsetHeight
+        };
+        this.updateLayout(this.$props);
+      });
     });
   },
 
   destroyed() {
-    this.erd.uninstall(document.getElementById("metal-grid"));
+    const wrapperElement = document.getElementById(ELEMENT_ID);
+    if (wrapperElement) {
+      this.erd.uninstall(wrapperElement);
+    }
   },
 
   methods: {
@@ -372,7 +378,7 @@ const GridInline = Vue.extend({
           position: "relative",
           height: `${height}px`
         }}
-        id={"metal-grid"}
+        id={ELEMENT_ID}
         class={className}
         ref={this.handleRef()}
       >
