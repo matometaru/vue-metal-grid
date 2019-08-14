@@ -1,5 +1,3 @@
-// @flow
-// http://easings.net/
 export const linear = 'linear';
 export const easeIn = 'ease-in';
 export const easeOut = 'ease-out';
