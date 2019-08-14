@@ -30,11 +30,12 @@
   "author": "matometaru",
   "dependencies": {
     "@types/element-resize-detector": "^1.1.2",
+    "@types/inline-style-prefixer": "^5.0.0",
     "easy-css-transform-builder": "^0.1.0",
     "element-resize-detector": "^1.1.14",
     "exenv": "^1.2.2",
     "imagesloaded": "^4.1.4",
-    "inline-style-prefixer": "^4.0.2",
+    "inline-style-prefixer": "^5.1.0",
     "interactjs": "^1.3.3",
     "vue": "2.6.10",
     "vue-transition-group-plus": "^0.1.0"
