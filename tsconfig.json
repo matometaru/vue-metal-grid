@@ -2,7 +2,7 @@
   "compilerOptions": {
     // これは Vue のブラウザサポートに合わせます
     "target": "es5",
-    "module": "es2015",
+    "module": "esnext",
     // これは `this` におけるデータプロパティに対して厳密な推論を可能にします
     "strict": true,
     // this を型推論するため有効にする
@@ -10,6 +10,7 @@
     "moduleResolution": "node",
     // import Vue from 'vue' を有効にする
     "allowSyntheticDefaultImports": true,
+    "allowJs": true,
     // import/export を使うため有効にする
     "esModuleInterop": true,
     "jsx": "preserve",

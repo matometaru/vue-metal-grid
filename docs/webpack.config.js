@@ -1,57 +1,57 @@
-const path = require('path');
-const webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
   entry: [
     // 'webpack-dev-server/client?http://localhost:3000',
     // 'webpack/hot/only-dev-server',
-    path.resolve(__dirname, 'js/index.js'),
+    path.resolve(__dirname, "js/index.js")
   ],
 
   output: {
-    filename: 'bundle.js',
+    filename: "bundle.js",
     path: __dirname,
-    publicPath: '/',
+    publicPath: "/"
   },
 
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
 
   resolve: {
-    extensions: ['.js', '.vue', '.jsx'],
+    extensions: [".js", ".vue", ".jsx", ".ts", ".tsx"],
     alias: {
-      vue$: 'vue/dist/vue.esm.js',
+      vue$: "vue/dist/vue.esm.js"
       // vue: 'vue/dist/vue.js',
       // '@': path.resolve(__dirname, '/js'),
-    },
+    }
   },
 
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        use: ['babel-loader'],
-        exclude: /node_modules/,
+        test: [/\.jsx?$/, /\.tsx?$/],
+        use: ["babel-loader"],
+        exclude: /node_modules/
       },
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader: "vue-loader",
         options: {
           loaders: {
-            scss: 'vue-style-loader!css-loader!sass-loader',
-            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-          },
-        },
-      },
-    ],
+            scss: "vue-style-loader!css-loader!sass-loader",
+            sass: "vue-style-loader!css-loader!sass-loader?indentedSyntax"
+          }
+        }
+      }
+    ]
   },
 
   plugins: [new webpack.HotModuleReplacementPlugin()],
 
   devServer: {
     contentBase: __dirname,
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     port: 3000,
     historyApiFallback: true,
-    hot: true,
-  },
+    hot: true
+  }
 };

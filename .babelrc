@@ -1,5 +1,9 @@
 {
-  "presets": ["@babel/preset-env", "@vue/babel-preset-jsx"],
+  "presets": [
+    "@babel/preset-env",
+    "@vue/babel-preset-jsx",
+    "@babel/preset-typescript"
+  ],
   "plugins": [
     "@babel/plugin-transform-runtime",
     "@babel/plugin-proposal-export-namespace-from"
