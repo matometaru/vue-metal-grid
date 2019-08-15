@@ -1,118 +1,129 @@
-import Vue from "vue";
+import Vue, { PropType } from 'vue';
 // @ts-ignore
-import ExecutionEnvironment from "exenv";
-import elementResizeDetectorMaker from "element-resize-detector";
-import GridItem from "./GridItem";
+import ExecutionEnvironment from 'exenv';
+import elementResizeDetectorMaker from 'element-resize-detector';
+import * as _ from 'lodash';
+import GridItem from './GridItem';
+import * as easings from '../animations/easings';
+import * as transitions from '../animations/transitions';
+import { Units } from '../utils/style-helper';
 // @ts-ignore
-import * as easings from "../animations/easings";
-// @ts-ignore
-import * as transitions from "../animations/transitions";
-// @ts-ignore
-import VueTransitionGroupPlus from "./vue-transition-group-plus/index";
+import VueTransitionGroupPlus from './vue-transition-group-plus/index';
 
 Vue.use(VueTransitionGroupPlus);
 
-const ELEMENT_ID = "metal-grid";
+const ELEMENT_ID = 'metal-grid';
 
 const imagesLoaded = ExecutionEnvironment.canUseDOM
-  ? require("imagesloaded")
+  ? require('imagesloaded')
   : null;
 
-const isNumber = (v: number) => typeof v === "number" && isFinite(v);
+const isNumber = (v: number) => typeof v === 'number' && isFinite(v);
 const isPercentageNumber = (v: string) =>
-  typeof v === "string" && /^\d+(\.\d+)?%$/.test(v);
+  typeof v === 'string' && /^\d+(\.\d+)?%$/.test(v);
 
 const Props = {
   className: String,
   css: {
-    type: Object,
-    default: () => {}
+    type: Object as PropType<{ name: string }>,
+    default: () => {},
   },
   gridRef: Function,
   component: {
     type: String,
-    default: "div"
+    default: 'div',
   },
   itemComponent: {
     type: String,
-    default: "span"
+    default: 'span',
   },
   columnWidth: {
     type: [Number, String],
-    default: 150
+    default: 150,
   },
   gutterWidth: {
     type: Number,
-    default: 5
+    default: 5,
   },
   gutterHeight: {
     type: Number,
-    default: 5
+    default: 5,
   },
   duration: {
     type: Number,
-    default: 480
+    default: 480,
   },
   easing: {
     type: String,
-    default: easings.quartOut
+    default: easings.quartOut,
   },
   appearDelay: {
     type: Number,
-    default: 30
+    default: 30,
   },
   appear: {
     type: Function,
-    default: transitions.fadeUp.appear
+    default: transitions.fadeUp.appear,
   },
   appeared: {
     type: Function,
-    default: transitions.fadeUp.appeared
+    default: transitions.fadeUp.appeared,
   },
   enter: {
     type: Function,
-    default: transitions.fadeUp.enter
+    default: transitions.fadeUp.enter,
   },
   entered: {
     type: Function,
-    default: transitions.fadeUp.entered
+    default: transitions.fadeUp.entered,
   },
   leaved: {
     type: Function,
-    default: transitions.fadeUp.leaved
+    default: transitions.fadeUp.leaved,
   },
   units: {
-    type: Object,
-    default() {
-      return { length: "px", angle: "deg" };
-    }
+    type: Object as PropType<Units>,
+    default: () =>
+      ({
+        length: 'em',
+        angle: 'deg',
+      } as Units),
   },
   monitorImagesLoaded: {
     type: Boolean,
-    default: false
+    default: false,
   },
   vendorPrefix: {
     type: Boolean,
-    default: true
+    default: true,
   },
   enableSSR: {
     type: Boolean,
-    default: false
+    default: false,
   },
   layoutCb: {
     type: Function,
-    default: null
+    default: null,
   },
   rtl: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 };
 
-const InlineProps: Record<string, any> = Object.assign(Props, {
-  children: Array,
-  refCallback: Function
+const InlineProps = _.merge(Props, {
+  children: {
+    type: Array as PropType<any[]>,
+  },
+  refCallback: Function,
 });
+
+type Rect = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
 
 /* eslint-disable consistent-return */
 const getColumnLengthAndWidth = (
@@ -125,7 +136,7 @@ const getColumnLengthAndWidth = (
 
     return [
       Math.floor((width - (width / columnWidth - 1) * gutter) / columnWidth),
-      columnWidth
+      columnWidth,
     ];
   }
   if (isPercentageNumber(value)) {
@@ -143,7 +154,7 @@ const getColumnLengthAndWidth = (
  * GridInline Component
  */
 const GridInline = Vue.extend({
-  name: "GridInline",
+  name: 'GridInline',
 
   props: InlineProps,
 
@@ -153,18 +164,18 @@ const GridInline = Vue.extend({
       imgLoad: {} as any,
       size: {
         width: 1000,
-        height: 1000
+        height: 1000,
       },
       mounted: false,
       state: {} as any,
-      erd: {} as elementResizeDetectorMaker.Erd
+      erd: {} as elementResizeDetectorMaker.Erd,
     };
   },
 
   watch: {
     children() {
       this.updateLayout(this.$props);
-    }
+    },
   },
 
   created() {
@@ -172,7 +183,7 @@ const GridInline = Vue.extend({
   },
 
   mounted() {
-    this.updateLayout(this.props);
+    this.updateLayout(this.$props);
     this.mounted = true;
     const wrapperElement = document.getElementById(ELEMENT_ID);
     if (wrapperElement === null) {
@@ -180,12 +191,12 @@ const GridInline = Vue.extend({
     }
     this.$nextTick(() => {
       this.erd = elementResizeDetectorMaker({
-        strategy: "scroll"
+        strategy: 'scroll',
       });
       this.erd.listenTo(wrapperElement, (element: HTMLElement) => {
         this.size = {
           width: element.offsetWidth,
-          height: element.offsetHeight
+          height: element.offsetHeight,
         };
         this.updateLayout(this.$props);
       });
@@ -206,7 +217,7 @@ const GridInline = Vue.extend({
      * @param  {Object} this.childrenのitem
      * @return {number} itemの高さ
      */
-    getItemHeight(item: any) {
+    getItemHeight(item: any): number {
       // 初期化時点では$refsにまだアクセスできないので、hasOwnPropertyで確認する。
       if (item.key && Object.hasOwnProperty.call(this.items, item.key)) {
         const el = (this.$refs[item.key] as any).$el;
@@ -214,7 +225,7 @@ const GridInline = Vue.extend({
           el.scrollHeight,
           el.clientHeight,
           el.offsetHeight,
-          0
+          0,
         ].filter(isNumber);
         return Math.max(...candidate);
       }
@@ -231,7 +242,7 @@ const GridInline = Vue.extend({
     doLayout(props: any) {
       const results = this.doLayoutForClient(props);
 
-      if (this.mounted && typeof this.$props.layoutCb === "function") {
+      if (this.mounted && typeof this.$props.layoutCb === 'function') {
         this.$props.layoutCb();
       }
 
@@ -248,10 +259,17 @@ const GridInline = Vue.extend({
     /**
      * this.$propsから、各itemのスタイルを計算して返す
      *
-     * @param  {Object} PropsInline
-     * @return {Object} { rects, actualWidth, height, columnWidth }
+     * @param PropsInline
+     * @return { rects, actualWidth, height, columnWidth }
      */
-    doLayoutForClient(props: any) {
+    doLayoutForClient(
+      props: any
+    ): {
+      rects: Rect[];
+      actualWidth: number;
+      height: number;
+      columnWidth: number;
+    } {
       const { columnWidth: rawColumnWidth, gutterWidth, gutterHeight } = props;
 
       const containerWidth = this.size.width;
@@ -277,7 +295,7 @@ const GridInline = Vue.extend({
           top,
           left,
           width: columnWidth,
-          height
+          height,
         };
       });
 
@@ -285,14 +303,14 @@ const GridInline = Vue.extend({
       const height = Math.max(...columnHeights) - gutterHeight;
       const finalRects = rects.map(o => ({
         ...o,
-        left: o.left + (containerWidth - width) / 2
+        left: o.left + (containerWidth - width) / 2,
       }));
 
       return {
         rects: finalRects,
         actualWidth: width,
         height,
-        columnWidth
+        columnWidth,
       };
     },
 
@@ -302,12 +320,12 @@ const GridInline = Vue.extend({
 
       if (
         this.$props.monitorImagesLoaded &&
-        typeof imagesLoaded === "function"
+        typeof imagesLoaded === 'function'
       ) {
         const node = item.$el;
         const imgLoad = imagesLoaded(node);
 
-        imgLoad.once("always", () => {
+        imgLoad.once('always', () => {
           this.updateLayout(this.$props);
         });
 
@@ -325,14 +343,14 @@ const GridInline = Vue.extend({
       }
 
       if (Object.hasOwnProperty.call(this.imgLoad, key)) {
-        this.imgLoad[key].off("always");
+        this.imgLoad[key].off('always');
         delete this.imgLoad[key];
       }
     },
 
     handleRef() {
       this.$props.refCallback(this);
-    }
+    },
   },
 
   render(h) {
@@ -364,7 +382,7 @@ const GridInline = Vue.extend({
     const containerSize = {
       actualWidth,
       width: this.size.width == null ? 0 : this.size.width,
-      height
+      height,
     };
 
     const validChildren = Array.isArray(this.children) ? this.children : [];
@@ -375,8 +393,8 @@ const GridInline = Vue.extend({
         transition-mode="out-in"
         tag={component}
         style={{
-          position: "relative",
-          height: `${height}px`
+          position: 'relative',
+          height: `${height}px`,
         }}
         id={ELEMENT_ID}
         class={className}
@@ -414,22 +432,22 @@ const GridInline = Vue.extend({
       // @ts-ignore */}
       </transition-group-plus>
     );
-  }
+  },
 });
 
 /**
  * MetalGrid Component
  */
 export default Vue.extend({
-  name: "MetalGrid",
+  name: 'MetalGrid',
 
   props: Props,
 
   data() {
     return {
       gridInline: {
-        updateLayout: () => {}
-      } as any
+        updateLayout: () => {},
+      } as any,
     };
   },
 
@@ -441,10 +459,10 @@ export default Vue.extend({
     handleRef(gridInline: any) {
       this.gridInline = gridInline;
 
-      if (typeof this.$props.gridRef === "function") {
+      if (typeof this.$props.gridRef === 'function') {
         this.$props.gridRef(this);
       }
-    }
+    },
   },
 
   render(h) {
@@ -460,7 +478,7 @@ export default Vue.extend({
       monitorImagesLoaded,
       layoutCb,
       duration,
-      rtl
+      rtl,
     } = this.$props;
 
     return (
@@ -482,5 +500,5 @@ export default Vue.extend({
         children={this.$slots.default}
       />
     );
-  }
+  },
 });

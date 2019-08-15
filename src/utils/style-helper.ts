@@ -5,13 +5,15 @@ import {
   Units,
 } from 'easy-css-transform-builder';
 
+export { Units, transition, buildStyles };
+
 const isTransformProp = (v: string) => properties.indexOf(v) > -1;
 
-export const transition = (props: any[], duration: any, easing: any) => {
+const transition = (props: any[], duration: any, easing: any) => {
   props.map(prop => `${prop} ${duration}ms ${easing}`).join(',');
 };
 
-export const buildStyles = (
+const buildStyles = (
   styles: any,
   units: Units,
   vendorPrefix: any,

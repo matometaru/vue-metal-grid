@@ -1,5 +1,4 @@
 import Vue from 'vue';
-// @ts-ignore
 import { transition, buildStyles } from '../utils/style-helper';
 
 const Props = {
