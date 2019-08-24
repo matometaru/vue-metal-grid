@@ -1,5 +1,14 @@
-import Vue from 'vue';
-import { transition, buildStyles } from '../utils/style-helper';
+import Vue, { PropType } from 'vue';
+import { transition, buildStyles, Units } from '../utils/style-helper';
+
+type TransitionType = 'appear' | 'appeared' | 'enter' | 'entered' | 'leaved';
+
+export type Rect = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
 
 const Props = {
   index: Number,
@@ -8,8 +17,8 @@ const Props = {
     type: String,
     default: 'span',
   },
-  rect: Object,
-  containerSize: Object,
+  rect: Object as PropType<Rect>,
+  containerSize: Object as PropType<any>,
   duration: Number,
   easing: String,
   appearDelay: Number,
@@ -18,7 +27,7 @@ const Props = {
   enter: Function,
   entered: Function,
   leaved: Function,
-  units: Object,
+  units: Object as PropType<Units>,
   vendorPrefix: Boolean,
   userAgent: String,
   mountedCb: Function,
@@ -26,13 +35,13 @@ const Props = {
   rtl: Boolean,
 };
 
-const getTransitionStyles = (type: any, props: any) => {
+const getTransitionStyles = (type: TransitionType, props: any) => {
   const { rect, containerSize, index } = props;
 
   return props[type](rect, containerSize, index);
 };
 
-const getPositionStyles = (rect: any, zIndex: any, rtl: any) => ({
+const getPositionStyles = (rect: Rect, zIndex: number, rtl: boolean) => ({
   translateX: `${rtl ? -Math.round(rect.left) : Math.round(rect.left)}px`,
   translateY: `${Math.round(rect.top)}px`,
   zIndex,
@@ -48,8 +57,8 @@ export default Vue.extend({
       appearTimer: null,
       node: null,
       state: {
-        ...getPositionStyles(this.$props.rect, 1, this.$props.rtl),
-        ...getTransitionStyles('appear', this.$props),
+        ...getPositionStyles(this.rect, 1, this.rtl),
+        ...getTransitionStyles('appear', this),
       },
     };
   },
@@ -58,21 +67,18 @@ export default Vue.extend({
     rect() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
+        ...getPositionStyles(this.rect, 2, this.rtl),
       });
     },
   },
 
   mounted() {
-    setTimeout(
-      this.setAppearedStyles,
-      this.$props.appearDelay * this.$props.index
-    );
-    this.$props.mountedCb(this);
+    setTimeout(this.setAppearedStyles, this.appearDelay * this.index);
+    this.mountedCb(this.$props);
   },
 
   destroyed() {
-    this.$props.unmountCb(this);
+    this.unmountCb(this.$props);
   },
 
   methods: {
@@ -83,32 +89,32 @@ export default Vue.extend({
     setAppearedStyles() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getTransitionStyles('appeared', this.$props),
-        ...getPositionStyles(this.$props.rect, 1, this.$props.rtl),
+        ...getTransitionStyles('appeared', this),
+        ...getPositionStyles(this.rect, 1, this.rtl),
       });
     },
 
     setEnterStyles() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
-        ...getTransitionStyles('enter', this.$props),
+        ...getPositionStyles(this.rect, 2, this.rtl),
+        ...getTransitionStyles('enter', this),
       });
     },
 
     setEnteredStyles() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getTransitionStyles('entered', this.$props),
-        ...getPositionStyles(this.$props.rect, 1, this.$props.rtl),
+        ...getTransitionStyles('entered', this),
+        ...getPositionStyles(this.rect, 1, this.rtl),
       });
     },
 
     setLeaveStyles() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
-        ...getTransitionStyles('leaved', this.$props),
+        ...getPositionStyles(this.rect, 2, this.rtl),
+        ...getTransitionStyles('leaved', this),
       });
     },
 
@@ -117,7 +123,7 @@ export default Vue.extend({
      *
      * @return {Object} { zIndex: 1, opacity: 1, transform: "translateX(15px) translateY(0px)", … }
      */
-    getStyles() {
+    getStyles(): Record<string, string> {
       const {
         rect,
         duration,
@@ -147,7 +153,7 @@ export default Vue.extend({
     },
 
     /* eslint-disable no-param-reassign */
-    setStyles(el: any, styles: any) {
+    setStyles(el: any, styles: Record<string, string>) {
       for (const key in styles) {
         el.style[key] = styles[key];
       }
@@ -169,7 +175,7 @@ export default Vue.extend({
       const styles = this.getStyles();
       // elにスタイル設定。
       this.setStyles(el, styles);
-      setTimeout(done, this.$props.duration);
+      setTimeout(done, this.duration);
     },
     /* eslint-enable no-unused-vars */
   },

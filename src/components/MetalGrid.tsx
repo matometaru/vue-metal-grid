@@ -3,7 +3,7 @@ import Vue, { PropType } from 'vue';
 import ExecutionEnvironment from 'exenv';
 import elementResizeDetectorMaker from 'element-resize-detector';
 import * as _ from 'lodash';
-import GridItem from './GridItem';
+import GridItem, { Rect } from './GridItem';
 import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions';
 import { Units } from '../utils/style-helper';
@@ -117,13 +117,6 @@ const InlineProps = _.merge(Props, {
   },
   refCallback: Function,
 });
-
-type Rect = {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-};
 
 /* eslint-disable consistent-return */
 const getColumnLengthAndWidth = (

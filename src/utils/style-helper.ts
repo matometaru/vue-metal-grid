@@ -14,10 +14,10 @@ const transition = (props: any[], duration: any, easing: any) => {
 };
 
 const buildStyles = (
-  styles: any,
+  styles: Record<string, any>,
   units: Units,
-  vendorPrefix: any,
-  userAgent: any
+  vendorPrefix: boolean,
+  userAgent: string
 ) => {
   const builder = createCSSTransformBuilder(units);
   const finalStyles: Record<string, string> = {};
