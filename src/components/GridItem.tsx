@@ -1,5 +1,14 @@
-import Vue from 'vue';
-import { transition, buildStyles } from '../utils/style-helper';
+import Vue, { PropType } from 'vue';
+import { transition, buildStyles, Units } from '../utils/style-helper';
+
+type TransitionType = 'appear' | 'appeared' | 'enter' | 'entered' | 'leaved';
+
+export type Rect = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
 
 const Props = {
   index: Number,
@@ -8,8 +17,8 @@ const Props = {
     type: String,
     default: 'span',
   },
-  rect: Object,
-  containerSize: Object,
+  rect: Object as PropType<Rect>,
+  containerSize: Object as PropType<any>,
   duration: Number,
   easing: String,
   appearDelay: Number,
@@ -18,7 +27,7 @@ const Props = {
   enter: Function,
   entered: Function,
   leaved: Function,
-  units: Object,
+  units: Object as PropType<Units>,
   vendorPrefix: Boolean,
   userAgent: String,
   mountedCb: Function,
@@ -26,13 +35,13 @@ const Props = {
   rtl: Boolean,
 };
 
-const getTransitionStyles = (type: any, props: any) => {
+const getTransitionStyles = (type: TransitionType, props: any) => {
   const { rect, containerSize, index } = props;
 
   return props[type](rect, containerSize, index);
 };
 
-const getPositionStyles = (rect: any, zIndex: any, rtl: any) => ({
+const getPositionStyles = (rect: Rect, zIndex: number, rtl: boolean) => ({
   translateX: `${rtl ? -Math.round(rect.left) : Math.round(rect.left)}px`,
   translateY: `${Math.round(rect.top)}px`,
   zIndex,
