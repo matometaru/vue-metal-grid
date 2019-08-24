@@ -3,11 +3,10 @@ import Vue, { PropType } from 'vue';
 import ExecutionEnvironment from 'exenv';
 import elementResizeDetectorMaker from 'element-resize-detector';
 import * as _ from 'lodash';
-import GridItem, { Rect } from './GridItem';
+import GridItem from './GridItem';
 import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions';
 import { Units } from '../utils/style-helper';
-// @ts-ignore
 import VueTransitionGroupPlus from './vue-transition-group-plus/index';
 
 Vue.use(VueTransitionGroupPlus);

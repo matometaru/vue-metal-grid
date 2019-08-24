@@ -3,7 +3,7 @@ const common = {
   backfaceVisibility: 'hidden',
 };
 
-export const appear = rect => ({
+export const appear = (rect: Rect) => ({
   ...common,
   perspective: rect.height,
   rotateY: -180,
@@ -21,7 +21,7 @@ export const enter = appeared;
 
 export const entered = appeared;
 
-export const leaved = rect => ({
+export const leaved = (rect: Rect) => ({
   ...common,
   perspective: rect.height,
   rotateY: 180,

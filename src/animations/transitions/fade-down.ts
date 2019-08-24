@@ -1,4 +1,4 @@
-export const appear = rect => ({
+export const appear = (rect: Rect) => ({
   translateY: rect.top - 10,
   opacity: 0,
 });
@@ -9,7 +9,7 @@ export const enter = appeared;
 
 export const entered = appeared;
 
-export const leaved = rect => ({
+export const leaved = (rect: Rect) => ({
   translateY: rect.top + 10,
   opacity: 0,
 });
