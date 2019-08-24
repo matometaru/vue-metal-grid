@@ -123,7 +123,7 @@ export default Vue.extend({
      *
      * @return {Object} { zIndex: 1, opacity: 1, transform: "translateX(15px) translateY(0px)", … }
      */
-    getStyles() {
+    getStyles(): Record<string, string> {
       const {
         rect,
         duration,
@@ -153,7 +153,7 @@ export default Vue.extend({
     },
 
     /* eslint-disable no-param-reassign */
-    setStyles(el: any, styles: any) {
+    setStyles(el: any, styles: Record<string, string>) {
       for (const key in styles) {
         el.style[key] = styles[key];
       }
