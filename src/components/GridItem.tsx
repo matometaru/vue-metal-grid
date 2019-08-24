@@ -3,13 +3,6 @@ import { transition, buildStyles, Units } from '../utils/style-helper';
 
 type TransitionType = 'appear' | 'appeared' | 'enter' | 'entered' | 'leaved';
 
-export type Rect = {
-  top: number;
-  left: number;
-  width: number;
-  height: number;
-};
-
 const Props = {
   index: Number,
   itemKey: [Number, String],

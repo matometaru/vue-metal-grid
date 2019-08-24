@@ -1,4 +1,4 @@
-export const appear = rect => ({
+export const appear = (rect: Rect) => ({
   translateY: rect.top + 10,
   opacity: 0,
 });
