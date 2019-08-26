@@ -31,6 +31,7 @@
   "author": "matometaru",
   "dependencies": {
     "@types/element-resize-detector": "^1.1.2",
+    "@types/exenv": "^1.2.0",
     "@types/inline-style-prefixer": "^5.0.0",
     "@types/lodash": "^4.14.136",
     "easy-css-transform-builder": "^0.1.0",
