@@ -51,7 +51,7 @@ export default Vue.extend({
       node: null,
       state: {
         ...getPositionStyles(this.rect, 1, this.rtl),
-        ...getTransitionStyles('appear', this),
+        ...getTransitionStyles('appear', this.$props),
       },
     };
   },
@@ -67,11 +67,11 @@ export default Vue.extend({
 
   mounted() {
     setTimeout(this.setAppearedStyles, this.appearDelay * this.index);
-    this.mountedCb(this.$props);
+    this.mountedCb(this);
   },
 
   destroyed() {
-    this.unmountCb(this.$props);
+    this.unmountCb(this);
   },
 
   methods: {
@@ -81,33 +81,33 @@ export default Vue.extend({
 
     setAppearedStyles() {
       this.setStateIfNeeded({
-        ...this.state,
-        ...getTransitionStyles('appeared', this),
+        ...this.$props.state,
+        ...getTransitionStyles('appeared', this.$props),
         ...getPositionStyles(this.rect, 1, this.rtl),
       });
     },
 
     setEnterStyles() {
       this.setStateIfNeeded({
-        ...this.state,
+        ...this.$props.state,
         ...getPositionStyles(this.rect, 2, this.rtl),
-        ...getTransitionStyles('enter', this),
+        ...getTransitionStyles('enter', this.$props),
       });
     },
 
     setEnteredStyles() {
       this.setStateIfNeeded({
-        ...this.state,
-        ...getTransitionStyles('entered', this),
-        ...getPositionStyles(this.rect, 1, this.rtl),
+        ...this.$props.state,
+        ...getTransitionStyles('entered', this.$props),
+        ...getPositionStyles(this.$props.rect, 1, this.$props.rtl),
       });
     },
 
     setLeaveStyles() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getPositionStyles(this.rect, 2, this.rtl),
-        ...getTransitionStyles('leaved', this),
+        ...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
+        ...getTransitionStyles('leaved', this.$props),
       });
     },
 
@@ -165,10 +165,10 @@ export default Vue.extend({
     onLeave(el: any, done: any) {
       this.setLeaveStyles();
       // stylesのオブジェクトを取得
-      const styles = this.getStyles();
+      const styles = this.$props.getStyles();
       // elにスタイル設定。
       this.setStyles(el, styles);
-      setTimeout(done, this.duration);
+      setTimeout(done, this.$props.duration);
     },
     /* eslint-enable no-unused-vars */
   },
