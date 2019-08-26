@@ -9,13 +9,43 @@ export default {
       size: sizeStore.get(),
       grid: {},
       items: [
-        { id: 1, title: 'ここに記事のタイトルが入ります。', date: '2018/07/21' },
-        { id: 2, title: 'ここに記事のタイトルが入ります。', date: '2018/07/23' },
-        { id: 3, title: 'ここに記事のタイトルが入ります。ここに記事のタイトルが入ります。', date: '2018/07/25' },
-        { id: 4, title: 'ここに記事のタイトルが入ります。', date: '2018/07/26' },
-        { id: 5, title: 'ここに記事のタイトルが入ります。', date: '2018/07/27' },
-        { id: 6, title: 'ここに記事のタイトルが入ります。ここに記事のタイトルが入ります。', date: '2018/07/28' },
-        { id: 7, title: 'ここに記事のタイトルが入ります。', date: '2018/07/31' },
+        {
+          id: 1,
+          title: 'ここに記事のタイトルが入ります。',
+          date: '2018/07/21',
+        },
+        {
+          id: 2,
+          title: 'ここに記事のタイトルが入ります。',
+          date: '2018/07/23',
+        },
+        {
+          id: 3,
+          title:
+            'ここに記事のタイトルが入ります。ここに記事のタイトルが入ります。',
+          date: '2018/07/25',
+        },
+        {
+          id: 4,
+          title: 'ここに記事のタイトルが入ります。',
+          date: '2018/07/26',
+        },
+        {
+          id: 5,
+          title: 'ここに記事のタイトルが入ります。',
+          date: '2018/07/27',
+        },
+        {
+          id: 6,
+          title:
+            'ここに記事のタイトルが入ります。ここに記事のタイトルが入ります。',
+          date: '2018/07/28',
+        },
+        {
+          id: 7,
+          title: 'ここに記事のタイトルが入ります。',
+          date: '2018/07/31',
+        },
       ],
       wrapperSize: {
         width: 0,
@@ -28,7 +58,7 @@ export default {
       const erd = elementResizeDetectorMaker({
         strategy: 'scroll',
       });
-      erd.listenTo(this.grid.$el, (element) => {
+      erd.listenTo(this.grid.$el, element => {
         this.wrapperSize = { width: element.offsetWidth };
       });
     });
@@ -42,26 +72,31 @@ export default {
       this.items = this.items.filter(o => o.id !== id);
     },
     addItem() {
-      this.items.push({ id: this.items.length + 1, title: 'ここに記事のタイトルが入ります。', date: '2018/08/01' });
+      this.items.push({
+        id: this.items.length + 1,
+        title: 'ここに記事のタイトルが入ります。',
+        date: '2018/08/01',
+      });
     },
   },
   render() {
     return (
       <MetalGrid
-        columnWidth={this.wrapperSize.width <= 768 ? '100%' : this.size.columnWidth}
+        columnWidth={
+          this.wrapperSize.width <= 768 ? '100%' : this.size.columnWidth
+        }
         duration={this.size.duration}
         gutterWidth={this.size.gutter}
         gutterHeight={this.size.gutter}
-        gridRef={grid => { this.grid = grid; } }
+        gridRef={grid => {
+          this.grid = grid;
+        }}
       >
         {this.items.map(item => (
-            <div
-              key={item.id}
-              onClick={() => this.removeItem(item.id)}
-            >
-              <p class="date">{item.date}</p>
-              <h2 class="tit">{item.title}</h2>
-            </div>
+          <div key={item.id} onClick={() => this.removeItem(item.id)}>
+            <p class="date">{item.date}</p>
+            <h2 class="tit">{item.title}</h2>
+          </div>
         ))}
       </MetalGrid>
     );
