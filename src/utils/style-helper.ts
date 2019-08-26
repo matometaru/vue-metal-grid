@@ -7,10 +7,12 @@ import {
 
 export { Units, transition, buildStyles };
 
-const isTransformProp = (v: string) => properties.indexOf(v) > -1;
+const isTransformProp = (v: string): boolean => {
+  return properties.indexOf(v) > -1;
+};
 
-const transition = (props: any[], duration: any, easing: any) => {
-  props.map(prop => `${prop} ${duration}ms ${easing}`).join(',');
+const transition = (props: any[], duration: any, easing: any): string => {
+  return props.map(prop => `${prop} ${duration}ms ${easing}`).join(',');
 };
 
 const buildStyles = (

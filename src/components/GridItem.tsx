@@ -165,7 +165,7 @@ export default Vue.extend({
     onLeave(el: any, done: any) {
       this.setLeaveStyles();
       // stylesのオブジェクトを取得
-      const styles = this.$props.getStyles();
+      const styles = this.getStyles();
       // elにスタイル設定。
       this.setStyles(el, styles);
       setTimeout(done, this.$props.duration);
