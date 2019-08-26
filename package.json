@@ -63,7 +63,7 @@
     "cross-env": "3.2.4",
     "css-loader": "2.1.1",
     "eslint": "6.2.2",
-    "eslint-config-airbnb-base": "13.2.0",
+    "eslint-config-airbnb-base": "14.0.0",
     "eslint-config-prettier": "6.1.0",
     "eslint-plugin-import": "2.18.2",
     "eslint-plugin-jsx-a11y": "6.2.3",
