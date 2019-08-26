@@ -1,7 +1,6 @@
 import Vue, { PropType } from 'vue';
 import ExecutionEnvironment from 'exenv';
 import elementResizeDetectorMaker from 'element-resize-detector';
-import * as _ from 'lodash';
 import GridItem from './GridItem';
 import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions';
@@ -109,7 +108,7 @@ const Props = {
   },
 };
 
-const InlineProps = _.merge(Props, {
+const InlineProps = Object.assign(Props, {
   children: {
     type: Array as PropType<any[]>,
   },
