@@ -85,7 +85,7 @@
     "vue-style-loader": "4.1.2",
     "vue-template-compiler": "2.6.10",
     "webpack": "4.39.2",
-    "webpack-cli": "3.2.3",
+    "webpack-cli": "3.3.7",
     "webpack-dev-server": "3.2.1"
   },
   "peerDependencies": {
