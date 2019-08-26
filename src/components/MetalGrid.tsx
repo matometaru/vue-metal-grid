@@ -1,5 +1,4 @@
 import Vue, { PropType } from 'vue';
-// @ts-ignore
 import ExecutionEnvironment from 'exenv';
 import elementResizeDetectorMaker from 'element-resize-detector';
 import * as _ from 'lodash';

@@ -5,7 +5,7 @@ exports[`Snapshot Test renders correctly 1`] = `
   beforeenter="function () { [native code] }"
 >
   <li
-    style="z-index: 1; opacity: 0; display: block; position: absolute; top: 0px; left: 0px; transform: translateX(1px) translateY(11px);"
+    style="z-index: 1; opacity: 0; display: block; position: absolute; top: 0px; left: 0px; transition: opacity 0ms linear,transform 0ms linear; transform: translateX(1px) translateY(11px);"
   />
 </transition-plus-stub>
 `;
