@@ -58,7 +58,7 @@
     "@vue/babel-preset-jsx": "1.1.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-eslint": "10.0.3",
-    "babel-jest": "23.6.0",
+    "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
     "cross-env": "3.2.4",
     "css-loader": "3.2.0",
