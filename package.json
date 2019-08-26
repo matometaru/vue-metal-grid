@@ -84,7 +84,7 @@
     "vue-slider-component": "2.8.14",
     "vue-style-loader": "4.1.2",
     "vue-template-compiler": "2.6.10",
-    "webpack": "4.29.6",
+    "webpack": "4.39.2",
     "webpack-cli": "3.2.3",
     "webpack-dev-server": "3.2.1"
   },
