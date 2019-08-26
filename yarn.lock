@@ -7435,9 +7435,9 @@ vue-router@3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.2.tgz#dedc67afe6c4e2bc25682c8b1c2a8c0d7c7e56be"
 
-vue-slider-component@2.8.14:
-  version "2.8.14"
-  resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-2.8.14.tgz#0661212579b9131b3efeba155a33117c7abd857a"
+vue-slider-component@2.8.16:
+  version "2.8.16"
+  resolved "https://registry.yarnpkg.com/vue-slider-component/-/vue-slider-component-2.8.16.tgz#b2036f816ed64fa4fcd6741219b80c5063b4fd60"
 
 vue-style-loader@4.1.2, vue-style-loader@^4.0.1:
   version "4.1.2"
