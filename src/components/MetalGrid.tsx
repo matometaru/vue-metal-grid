@@ -115,6 +115,16 @@ const InlineProps = Object.assign(Props, {
   refCallback: Function,
 });
 
+// Vue.$dataの型定義
+type Data = {
+  items: any[];
+  imgLoad: any[];
+  size: Size;
+  mounted: boolean;
+  state: Layout;
+  erd: elementResizeDetectorMaker.Erd;
+};
+
 /* eslint-disable consistent-return */
 const getColumnLengthAndWidth = (
   width: any,
@@ -148,16 +158,21 @@ const GridInline = Vue.extend({
 
   props: InlineProps,
 
-  data() {
+  data(): Data {
     return {
-      items: {} as any,
-      imgLoad: {} as any,
+      items: [],
+      imgLoad: [],
       size: {
         width: 1000,
         height: 1000,
       },
       mounted: false,
-      state: {} as any,
+      state: {
+        rects: [],
+        actualWidth: 0,
+        height: 0,
+        columnWidth: 0,
+      },
       erd: {} as elementResizeDetectorMaker.Erd,
     };
   },
@@ -252,14 +267,7 @@ const GridInline = Vue.extend({
      * @param PropsInline
      * @return { rects, actualWidth, height, columnWidth }
      */
-    doLayoutForClient(
-      props: any
-    ): {
-      rects: Rect[];
-      actualWidth: number;
-      height: number;
-      columnWidth: number;
-    } {
+    doLayoutForClient(props: any): Layout {
       const { columnWidth: rawColumnWidth, gutterWidth, gutterHeight } = props;
 
       const containerWidth = this.size.width;
