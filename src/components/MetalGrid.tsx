@@ -365,7 +365,6 @@ const GridInline = Vue.extend({
       easing,
       units,
       vendorPrefix,
-      userAgent,
       rtl,
       appearDelay,
       appear,

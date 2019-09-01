@@ -16,3 +16,5 @@ type Layout = {
   height: number;
   columnWidth: number;
 };
+
+type TransitionType = 'appear' | 'appeared' | 'enter' | 'entered' | 'leaved';
