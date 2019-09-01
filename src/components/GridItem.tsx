@@ -182,15 +182,12 @@ export default Vue.extend({
       return styles;
     },
 
-    /* eslint-disable no-param-reassign */
     setStyles(el: HTMLElement, styles: Record<string, string>) {
       for (const key in styles) {
         el.setAttribute(key, styles[key]);
       }
     },
-    /* eslint-enable no-param-reassign */
 
-    /* eslint-disable no-unused-vars */
     onBeforeEnter() {
       this.setEnterStyles();
     },
@@ -205,7 +202,6 @@ export default Vue.extend({
       this.setStyles(el, styles);
       setTimeout(done, this.duration);
     },
-    /* eslint-enable no-unused-vars */
   },
 
   render(h) {
