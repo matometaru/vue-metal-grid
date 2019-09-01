@@ -3,11 +3,3 @@ declare module '*.vue' {
 
   export default Vue;
 }
-
-declare namespace JSX {
-  interface Element {}
-  interface IntrinsicElements {
-    div: any;
-    TransitionPlus: any;
-  }
-}

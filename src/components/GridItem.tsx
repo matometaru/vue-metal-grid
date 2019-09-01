@@ -1,23 +1,6 @@
 import Vue, { PropType } from 'vue';
 import { transition, buildStyles, Units } from '../utils/style-helper';
-
-import { RecordPropsDefinition } from 'vue/types/options';
-
-// https://gist.github.com/wonderful-panda/3156681f25ee72e1a3bfbeaf3764288b propsの型を抽出するやつ
-export type RequiredPropNames<PD extends RecordPropsDefinition<any>> = ({
-  [K in keyof PD]: PD[K] extends { required: true } ? K : never
-})[keyof PD];
-
-export type OptionalPropNames<PD extends RecordPropsDefinition<any>> = {
-  [K in keyof PD]: PD[K] extends { required: true } ? never : K
-}[keyof PD];
-
-export type OuterProps<
-  PropDefs extends RecordPropsDefinition<any>
-> = PropDefs extends RecordPropsDefinition<infer P>
-  ? { [K in RequiredPropNames<PropDefs> & keyof P]: P[K] } &
-      { [K in OptionalPropNames<PropDefs> & keyof P]?: P[K] }
-  : never;
+import { OuterProps } from 'vue/types/options';
 
 type Props = OuterProps<typeof Props>;
 
