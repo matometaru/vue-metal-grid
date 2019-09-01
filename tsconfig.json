@@ -16,6 +16,6 @@
     "jsx": "preserve",
     "jsxFactory": "h"
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "types/**/*"],
   "exclude": ["node_modules", "**/__tests__/*"]
 }

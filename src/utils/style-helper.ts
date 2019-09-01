@@ -18,8 +18,7 @@ const transition = (props: any[], duration: any, easing: any): string => {
 const buildStyles = (
   styles: Record<string, any>,
   units: Units,
-  vendorPrefix: boolean,
-  userAgent: string
+  vendorPrefix: boolean
 ) => {
   const builder = createCSSTransformBuilder(units);
   const finalStyles: Record<string, string> = {};

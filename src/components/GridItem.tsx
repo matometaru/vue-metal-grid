@@ -1,34 +1,61 @@
 import Vue, { PropType } from 'vue';
 import { transition, buildStyles, Units } from '../utils/style-helper';
+import { OuterProps } from 'vue/types/options';
 
-type TransitionType = 'appear' | 'appeared' | 'enter' | 'entered' | 'leaved';
+type Props = OuterProps<typeof Props>;
 
 const Props = {
-  index: Number,
+  index: {
+    type: Number,
+    required: true as true,
+  },
   itemKey: [Number, String],
   component: {
     type: String,
     default: 'span',
   },
-  rect: Object as PropType<Rect>,
+  rect: {
+    type: Object as PropType<Rect>,
+    required: true as true,
+  },
   containerSize: Object as PropType<any>,
   duration: Number,
   easing: String,
   appearDelay: Number,
-  appear: Function,
-  appeared: Function,
-  enter: Function,
-  entered: Function,
-  leaved: Function,
-  units: Object as PropType<Units>,
-  vendorPrefix: Boolean,
-  userAgent: String,
+  appear: {
+    type: Function,
+    required: true as true,
+  },
+  appeared: {
+    type: Function,
+    required: true as true,
+  },
+  enter: {
+    type: Function,
+    required: true as true,
+  },
+  entered: {
+    type: Function,
+    required: true as true,
+  },
+  leaved: {
+    type: Function,
+    required: true as true,
+  },
+  units: {
+    type: Object as PropType<Units>,
+    required: true as true,
+  },
+  vendorPrefix: {
+    type: Boolean,
+    required: true as true,
+  },
   mountedCb: Function,
   unmountCb: Function,
   rtl: Boolean,
 };
 
-const getTransitionStyles = (type: TransitionType, props: any) => {
+const getTransitionStyles = (type: TransitionType, props: Props) => {
   const { rect, containerSize, index } = props;
 
   return props[type](rect, containerSize, index);
@@ -51,7 +78,7 @@ export default Vue.extend({
       node: null,
       state: {
         ...getPositionStyles(this.rect, 1, this.rtl),
-        ...getTransitionStyles('appear', this.$props),
+        ...getTransitionStyles('appear', this.$props as Props),
       },
     };
   },
@@ -81,33 +108,33 @@ export default Vue.extend({
 
     setAppearedStyles() {
       this.setStateIfNeeded({
-        ...this.$props.state,
-        ...getTransitionStyles('appeared', this.$props),
+        ...this.state,
+        ...getTransitionStyles('appeared', this.$props as Props),
         ...getPositionStyles(this.rect, 1, this.rtl),
       });
     },
 
     setEnterStyles() {
       this.setStateIfNeeded({
-        ...this.$props.state,
+        ...this.state,
         ...getPositionStyles(this.rect, 2, this.rtl),
-        ...getTransitionStyles('enter', this.$props),
+        ...getTransitionStyles('enter', this.$props as Props),
       });
     },
 
     setEnteredStyles() {
       this.setStateIfNeeded({
-        ...this.$props.state,
-        ...getTransitionStyles('entered', this.$props),
-        ...getPositionStyles(this.$props.rect, 1, this.$props.rtl),
+        ...this.state,
+        ...getTransitionStyles('entered', this.$props as Props),
+        ...getPositionStyles(this.rect, 1, this.rtl),
       });
     },
 
     setLeaveStyles() {
       this.setStateIfNeeded({
         ...this.state,
-        ...getPositionStyles(this.$props.rect, 2, this.$props.rtl),
-        ...getTransitionStyles('leaved', this.$props),
+        ...getPositionStyles(this.rect, 2, this.rtl),
+        ...getTransitionStyles('leaved', this.$props as Props),
       });
     },
 
@@ -117,65 +144,51 @@ export default Vue.extend({
      * @return {Object} { zIndex: 1, opacity: 1, transform: "translateX(15px) translateY(0px)", … }
      */
     getStyles(): Record<string, string> {
-      const {
-        rect,
-        duration,
-        easing,
-        units,
-        vendorPrefix,
-        userAgent,
-        rtl,
-      } = this.$props;
-
       const styles = buildStyles(
         {
           ...this.state,
           display: 'block',
           position: 'absolute',
           top: 0,
-          ...(rtl ? { right: 0 } : { left: 0 }),
-          width: `${rect.width}px`,
-          transition: transition(['opacity', 'transform'], duration, easing),
+          ...(this.rtl ? { right: 0 } : { left: 0 }),
+          width: `${this.rect.width}px`,
+          transition: transition(
+            ['opacity', 'transform'],
+            this.duration,
+            this.easing
+          ),
         },
-        units,
-        vendorPrefix,
-        userAgent
+        this.units,
+        this.vendorPrefix
       );
 
       return styles;
     },
 
-    /* eslint-disable no-param-reassign */
-    setStyles(el: any, styles: Record<string, string>) {
+    setStyles(el: HTMLElement, styles: Record<string, string>) {
       for (const key in styles) {
-        el.style[key] = styles[key];
+        el.setAttribute(key, styles[key]);
       }
     },
-    /* eslint-enable no-param-reassign */
 
-    /* eslint-disable no-unused-vars */
-    onBeforeEnter(el: any) {
+    onBeforeEnter() {
       this.setEnterStyles();
     },
 
-    onEnter(el: any, done: any) {
+    onEnter() {
       this.setEnteredStyles();
     },
 
-    onLeave(el: any, done: any) {
+    onLeave(el: HTMLElement, done: any) {
       this.setLeaveStyles();
-      // stylesのオブジェクトを取得
       const styles = this.getStyles();
-      // elにスタイル設定。
       this.setStyles(el, styles);
-      setTimeout(done, this.$props.duration);
+      setTimeout(done, this.duration);
     },
-    /* eslint-enable no-unused-vars */
   },
 
   render(h) {
-    const { component: Element } = this.$props;
-
+    const Element = this.component;
     const style = this.getStyles();
 
     return (

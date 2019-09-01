@@ -125,7 +125,6 @@ type Data = {
   erd: elementResizeDetectorMaker.Erd;
 };
 
-/* eslint-disable consistent-return */
 const getColumnLengthAndWidth = (
   width: any,
   value: any,
@@ -148,7 +147,6 @@ const getColumnLengthAndWidth = (
   }
   return [0, 0];
 };
-/* eslint-enable consistent-return */
 
 /**
  * GridInline Component
@@ -365,7 +363,6 @@ const GridInline = Vue.extend({
       easing,
       units,
       vendorPrefix,
-      userAgent,
       rtl,
       appearDelay,
       appear,
