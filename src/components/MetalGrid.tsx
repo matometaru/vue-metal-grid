@@ -6,13 +6,15 @@ import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions';
 import { Units } from '../utils/style-helper';
 import VueTransitionGroupPlus from './vue-transition-group-plus/index';
+import imgLoaded from 'imagesloaded';
+
 
 Vue.use(VueTransitionGroupPlus);
 
 const ELEMENT_ID = 'metal-grid';
 
 const imagesLoaded = ExecutionEnvironment.canUseDOM
-  ? require('imagesloaded')
+  ? imgLoaded
   : null;
 
 const isNumber = (v: number) => typeof v === 'number' && isFinite(v);
@@ -117,12 +119,12 @@ const InlineProps = Object.assign(Props, {
 
 // Vue.$dataの型定義
 type Data = {
-  items: any[];
-  imgLoad: any[];
+  items: Vue[];
+  imgLoad: ImagesLoaded.ImagesLoaded[];
   size: Size;
   mounted: boolean;
   state: Layout;
-  erd: elementResizeDetectorMaker.Erd;
+  erd: elementResizeDetectorMaker.Erd | null;
 };
 
 const getColumnLengthAndWidth = (
@@ -171,7 +173,7 @@ const GridInline = Vue.extend({
         height: 0,
         columnWidth: 0,
       },
-      erd: {} as elementResizeDetectorMaker.Erd,
+      erd: null,
     };
   },
 
@@ -208,7 +210,7 @@ const GridInline = Vue.extend({
 
   destroyed() {
     const wrapperElement = document.getElementById(ELEMENT_ID);
-    if (wrapperElement) {
+    if (wrapperElement && this.erd !== null) {
       this.erd.uninstall(wrapperElement);
     }
   },
@@ -310,7 +312,7 @@ const GridInline = Vue.extend({
       };
     },
 
-    handleItemMounted(item: any) {
+    handleItemMounted(item: Vue) {
       const { itemKey: key } = item.$props;
       this.items[key] = item;
 
@@ -318,8 +320,7 @@ const GridInline = Vue.extend({
         this.$props.monitorImagesLoaded &&
         typeof imagesLoaded === 'function'
       ) {
-        const node = item.$el;
-        const imgLoad = imagesLoaded(node);
+        const imgLoad = imagesLoaded(item.$el);
 
         imgLoad.once('always', () => {
           this.updateLayout(this.$props);
@@ -339,8 +340,9 @@ const GridInline = Vue.extend({
       }
 
       if (Object.hasOwnProperty.call(this.imgLoad, key)) {
-        this.imgLoad[key].off('always');
-        delete this.imgLoad[key];
+        this.imgLoad[key].off('always', () => {
+          delete this.imgLoad[key];
+        });
       }
     },
 

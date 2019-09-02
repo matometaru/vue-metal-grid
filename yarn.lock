@@ -990,6 +990,12 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
+"@types/imagesloaded@^4.1.1":
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/@types/imagesloaded/-/imagesloaded-4.1.1.tgz#25e25cca04042b655f7f99f30da332fa5d5c690f"
+  dependencies:
+    "@types/jquery" "*"
+
 "@types/inline-style-prefixer@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@types/inline-style-prefixer/-/inline-style-prefixer-5.0.0.tgz#8bba0d4735f61bfa2d1a023a23b6a58a63b1166e"
@@ -1025,6 +1031,12 @@
   dependencies:
     "@types/jest-diff" "*"
 
+"@types/jquery@*":
+  version "3.3.31"
+  resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.31.tgz#27c706e4bf488474e1cb54a71d8303f37c93451b"
+  dependencies:
+    "@types/sizzle" "*"
+
 "@types/minimatch@*":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
@@ -1032,6 +1044,10 @@
 "@types/node@*":
   version "12.7.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.2.tgz#c4e63af5e8823ce9cc3f0b34f7b998c2171f0c44"
+
+"@types/sizzle@*":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@types/sizzle/-/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
 
 "@types/stack-utils@^1.0.1":
   version "1.0.1"
