@@ -990,7 +990,7 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/imagesloaded@^4.1.1":
+"@types/imagesloaded@4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@types/imagesloaded/-/imagesloaded-4.1.1.tgz#25e25cca04042b655f7f99f30da332fa5d5c690f"
   dependencies:
