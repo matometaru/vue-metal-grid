@@ -1,9 +1,6 @@
 import { RecordPropsDefinition } from 'vue/types/options';
 
 declare module 'vue/types/options' {
-  interface aaa {
-    myOption: string;
-  }
   // https://gist.github.com/wonderful-panda/3156681f25ee72e1a3bfbeaf3764288b propsの型を抽出するやつ
   type RequiredPropNames<PD extends RecordPropsDefinition<any>> = ({
     [K in keyof PD]: PD[K] extends { required: true } ? K : never
