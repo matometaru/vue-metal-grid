@@ -2,7 +2,7 @@ import Vue, { PropType } from 'vue';
 import { transition, buildStyles, Units } from '../utils/style-helper';
 import { OuterProps } from 'vue/types/options';
 
-type Props = OuterProps<typeof Props>;
+export type Props = OuterProps<typeof Props>;
 type TrasitionStyles = {
   [key: string]: any;
 }
@@ -20,7 +20,10 @@ const Props = {
     type: Number,
     required: true as true,
   },
-  itemKey: [Number, String],
+  itemKey: {
+    type: [Number, String],
+    required: true as true,
+  },
   component: {
     type: String,
     default: 'span',
@@ -29,10 +32,22 @@ const Props = {
     type: Object as PropType<Rect>,
     required: true as true,
   },
-  containerSize: Object as PropType<any>,
-  duration: Number,
-  easing: String,
-  appearDelay: Number,
+  containerSize: {
+    type: Object as PropType<any>,
+    required: true as true,
+  },
+  duration:  {
+    type: Number,
+    required: true as true,
+  },
+  easing: {
+    type: String,
+    required: true as true,
+  },
+  appearDelay: {
+    type: Number,
+    required: true as true,
+  },
   appear: {
     type: Function,
     required: true as true,
@@ -61,9 +76,18 @@ const Props = {
     type: Boolean,
     required: true as true,
   },
-  mountedCb: Function,
-  unmountCb: Function,
-  rtl: Boolean,
+  mountedCb: {
+    type: Function,
+    required: true as true,
+  },
+  unmountCb: {
+    type: Function,
+    required: true as true,
+  },
+  rtl: {
+    type: Boolean,
+    required: true as true,
+  }
 };
 
 const getTransitionStyles = (type: TransitionType, props: Props) => {
