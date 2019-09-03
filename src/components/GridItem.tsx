@@ -3,6 +3,17 @@ import { transition, buildStyles, Units } from '../utils/style-helper';
 import { OuterProps } from 'vue/types/options';
 
 type Props = OuterProps<typeof Props>;
+type TrasitionStyles = {
+  [key: string]: any;
+}
+type PositionStyles = {
+  translateX: string;
+  translateY: string;
+  zIndex: number;
+}
+type Data = {
+  state: TrasitionStyles & PositionStyles
+}
 
 const Props = {
   index: {
@@ -61,7 +72,7 @@ const getTransitionStyles = (type: TransitionType, props: Props) => {
   return props[type](rect, containerSize, index);
 };
 
-const getPositionStyles = (rect: Rect, zIndex: number, rtl: boolean) => ({
+const getPositionStyles = (rect: Rect, zIndex: number, rtl: boolean): PositionStyles => ({
   translateX: `${rtl ? -Math.round(rect.left) : Math.round(rect.left)}px`,
   translateY: `${Math.round(rect.top)}px`,
   zIndex,
@@ -72,10 +83,8 @@ export default Vue.extend({
 
   props: Props,
 
-  data() {
+  data(): Data {
     return {
-      appearTimer: null,
-      node: null,
       state: {
         ...getPositionStyles(this.rect, 1, this.rtl),
         ...getTransitionStyles('appear', this.$props as Props),
