@@ -11,8 +11,9 @@ type PositionStyles = {
   translateY: string;
   zIndex: number;
 }
+type State = TrasitionStyles & PositionStyles;
 type Data = {
-  state: TrasitionStyles & PositionStyles
+  state: State
 }
 
 const Props = {
@@ -135,7 +136,7 @@ export default Vue.extend({
   },
 
   methods: {
-    setStateIfNeeded(state: any) {
+    setStateIfNeeded(state: State) {
       this.state = state;
     },
 
