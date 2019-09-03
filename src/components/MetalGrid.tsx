@@ -1,13 +1,13 @@
 import Vue, { PropType } from 'vue';
 import ExecutionEnvironment from 'exenv';
 import elementResizeDetectorMaker from 'element-resize-detector';
-import GridItem from './GridItem';
+import GridItem, { Props as GridItemProps } from './GridItem';
 import * as easings from '../animations/easings';
 import * as transitions from '../animations/transitions';
 import { Units } from '../utils/style-helper';
 import VueTransitionGroupPlus from './vue-transition-group-plus/index';
 import imgLoaded from 'imagesloaded';
-
+import { OuterProps } from 'vue/types/options';
 
 Vue.use(VueTransitionGroupPlus);
 
@@ -116,6 +116,9 @@ const InlineProps = Object.assign(Props, {
   },
   refCallback: Function,
 });
+
+type Props = OuterProps<typeof Props>;
+type InlineProps = OuterProps<typeof InlineProps>;
 
 // Vue.$dataの型定義
 type Data = {
@@ -244,11 +247,11 @@ const GridInline = Vue.extend({
      * @param  {Object} PropsInline
      * @return {Object} state
      */
-    doLayout(props: any) {
+    doLayout(props: InlineProps) {
       const results = this.doLayoutForClient(props);
 
-      if (this.mounted && typeof this.$props.layoutCb === 'function') {
-        this.$props.layoutCb();
+      if (this.mounted && typeof this.layoutCb === 'function') {
+        this.layoutCb();
       }
 
       return results;
@@ -317,7 +320,7 @@ const GridInline = Vue.extend({
       this.items[key] = item;
 
       if (
-        this.$props.monitorImagesLoaded &&
+        this.monitorImagesLoaded &&
         typeof imagesLoaded === 'function'
       ) {
         const imgLoad = imagesLoaded(item.$el);
@@ -347,20 +350,15 @@ const GridInline = Vue.extend({
     },
 
     handleRef() {
-      this.$props.refCallback(this);
+      this.refCallback(this);
     },
   },
 
   render(h) {
     const {
-      gutterWidth,
-      gutterHeight,
-      monitorImagesLoaded,
-      refCallback,
       className,
       component,
       itemComponent,
-      children,
       duration,
       easing,
       units,
@@ -372,7 +370,6 @@ const GridInline = Vue.extend({
       enter,
       entered,
       leaved,
-      ...rest
     } = this.$props;
 
     const { rects, actualWidth, height } = this.state;
@@ -383,6 +380,27 @@ const GridInline = Vue.extend({
     };
 
     const validChildren = Array.isArray(this.children) ? this.children : [];
+
+    const getGridItemProps = (child: any, i: number): GridItemProps => ({
+        index: i,
+        itemKey: child.key,
+        component: itemComponent,
+        rect: rects[i],
+        containerSize,
+        duration,
+        easing,
+        appearDelay,
+        appear,
+        appeared,
+        enter,
+        entered,
+        leaved,
+        units,
+        vendorPrefix,
+        mountedCb: this.handleItemMounted,
+        unmountCb: this.handleItemUnmount,
+        rtl
+    });
 
     return (
       // @ts-ignore
@@ -400,27 +418,9 @@ const GridInline = Vue.extend({
         {validChildren.map((child: any, i: any) => (
           // @ts-ignore
           <GridItem
-            {...rest}
-            index={i}
             key={child.key}
-            itemKey={child.key}
-            component={itemComponent}
-            rect={rects[i]}
-            appearDelay={appearDelay}
-            appear={appear}
-            appeared={appeared}
-            enter={enter}
-            entered={entered}
-            leaved={leaved}
-            containerSize={containerSize}
-            mountedCb={this.handleItemMounted}
-            unmountCb={this.handleItemUnmount}
-            duration={duration}
-            rtl={rtl}
-            easing={easing}
-            units={units}
-            vendorPrefix={vendorPrefix}
             ref={child.key}
+            {...{props: getGridItemProps(child, i)}}
           >
             {child}
           </GridItem>
@@ -456,8 +456,8 @@ export default Vue.extend({
     handleRef(gridInline: any) {
       this.gridInline = gridInline;
 
-      if (typeof this.$props.gridRef === 'function') {
-        this.$props.gridRef(this);
+      if (typeof this.gridRef === 'function') {
+        this.gridRef(this);
       }
     },
   },
