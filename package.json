@@ -51,7 +51,7 @@
     "@babel/preset-env": "7.5.5",
     "@babel/preset-typescript": "7.3.3",
     "@babel/runtime": "7.5.5",
-    "@types/imagesloaded": "4.1.1",
+    "@types/imagesloaded": "4.1.2",
     "@types/jest": "24.0.18",
     "@vue/babel-helper-vue-jsx-merge-props": "1.0.0",
     "@vue/babel-plugin-transform-vue-jsx": "1.0.0",
