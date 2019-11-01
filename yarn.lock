@@ -990,9 +990,9 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/imagesloaded@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@types/imagesloaded/-/imagesloaded-4.1.1.tgz#25e25cca04042b655f7f99f30da332fa5d5c690f"
+"@types/imagesloaded@4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@types/imagesloaded/-/imagesloaded-4.1.2.tgz#da743c8d9f4a04f795e99d7921aae7c20af5d2e1"
   dependencies:
     "@types/jquery" "*"
 
